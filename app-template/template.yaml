@@ -68,24 +68,3 @@ spec:
         branchName: ${{ parameters.application_id }}
         title: namespaces for ${{ parameters.application_id }}
         description: namespaces for ${{ parameters.application_id }}
-
-    - id: template-gitops
-      name: Fetch Skeleton + Template
-      action: fetch:template
-      input:
-        url: ./app-gitops
-        copyWithoutRender: []
-        values: {}
-        targetPath: ./app-gitops
-
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: This is ${{ parameters.application_id }}
-        repoUrl: github.com?repo=${{ parameters.application_id }}-gitops&owner=${{ parameters.owner }}
-        repoVisibility: public
-        sourcePath: ./app-gitops
-        deleteBranchOnMerge: true
-        access: ${{ parameters.application_id }}/${{ parameters.owner }}
