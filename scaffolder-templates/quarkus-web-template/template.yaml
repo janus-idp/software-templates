@@ -58,6 +58,10 @@ spec:
           ui:options:
             allowedKinds:
               - Group
+        application:
+          title: Application
+          type: string
+          description: Name of the application
     - title: Choose a location
       required:
         - repoUrl
