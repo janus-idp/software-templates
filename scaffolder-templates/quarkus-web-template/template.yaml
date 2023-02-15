@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: quarkus-web-template
+  name: quarkus-web-template-test
   title: Quarkus Service
   description: Create a simple microservice using Quarkus
   tags:
