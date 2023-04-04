@@ -62,12 +62,13 @@ spec:
       name: Regex Entity Names
       action: regex:entity-names
       input:
-        - key: owner
-          value: ${{ parameters.owner }}
-        - key: system
-          value: ${{ parameters.system }}
-        - key: componentName
-          value: ${{ parameters.componentName }}
+        values:
+          - key: owner
+            value: ${{ parameters.owner }}
+          - key: system
+            value: ${{ parameters.system }}
+          - key: componentName
+            value: ${{ parameters.componentName }}
 
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
