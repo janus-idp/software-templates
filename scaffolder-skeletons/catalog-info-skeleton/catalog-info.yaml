@@ -35,3 +35,4 @@ spec:
   partOf:
     - ${{ values.partOf }}
   {%- endif %}
+  regex: ${{ values.regex | dump }}

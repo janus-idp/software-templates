@@ -58,6 +58,17 @@ spec:
                 - System
 
   steps:
+    - id: regexEntityNames
+      name: Regex Entity Names
+      action: regex:entity-names
+      input:
+        - key: owner
+          value: ${{ parameters.owner }}
+        - key: system
+          value: ${{ parameters.system }}
+        - key: componentName
+          value: ${{ parameters.componentName }}
+
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
       action: fetch:template
@@ -88,6 +99,8 @@ spec:
           system: ${{ parameters.system }}
           applicationType: documentation
           description: Contains the techdocs for ${{ parameters.repoName }}
+
+          regex: ${{ steps.regexEntityNames.output.values }}
 
     - id: publish
       name: Publishing to the Source Code Repository
