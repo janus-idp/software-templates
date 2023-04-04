@@ -1,5 +1,6 @@
 {%- set entityNameRegExp = r/^(\S+:)?(default\/)?(\S*)$/ %}
 {%- set systemName = values.system.match(entityNameRegExp)[3] %}
+{%- set ownerName = values.owner.match(entityNameRegExp)[3] %}
 apiVersion: backstage.io/v1alpha1
 {%- if values.entityKind %}
 kind: ${{ values.entityKind }}
@@ -25,7 +26,7 @@ spec:
   type: ${{ values.applicationType }}
   system: ${{ systemName }}
   lifecycle: production
-  owner: ${{ values.owner }}
+  owner: ${{ ownerName }}
   {%- if values.dependsOn %}
   dependsOn:
     - ${{ values.dependsOn }}
