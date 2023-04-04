@@ -1,34 +1,36 @@
+{% set entityNameRegExp = r/^(\S+:)?(default\/)?(\S*)$/ %}
+{% set systemName = values.system.match(entityNameRegExp)[3] %}
 apiVersion: backstage.io/v1alpha1
-{%- if values.entityKind %}
+{% if values.entityKind %}
 kind: ${{ values.entityKind }}
-{%- else %}
+{% else %}
 kind: Component
-{%- endif %}
+{% endif %}
 metadata:
   name: ${{ values.repoName }}
-  {%- if values.description %}
+  {% if values.description %}
   description: ${{ values.description }}
-  {%- endif %}
+  {% endif %}
   annotations:
-    {%- if values.hostUrl %}
+    {% if values.hostUrl %}
     argocd/app-name: ${{ values.repoName }}
-    {%- endif %}
-    {%- if values.ci == "../../scaffolder-skeletons/tekton-skeleton/" %}
+    {% endif %}
+    {% if values.ci == "../../scaffolder-skeletons/tekton-skeleton/" %}
     tektonci/build-namespace: ${{ values.namespace }}
-    {%- endif %}
+    {% endif %}
     backstage.io/kubernetes-id: ${{ values.repoName }}
     backstage.io/techdocs-ref: dir:.
     github.com/project-slug: ${{ values.githubOrg }}/${{ values.repoName }}
 spec:
   type: ${{ values.applicationType }}
-  system: ${{ values.system }}
+  system: ${{ systemName }}
   lifecycle: production
   owner: ${{ values.owner }}
-  {%- if values.dependsOn %}
+  {% if values.dependsOn %}
   dependsOn:
     - ${{ values.dependsOn }}
-  {%- endif %}
-  {%- if values.partOf %}
+  {% endif %}
+  {% if values.partOf %}
   partOf:
     - ${{ values.partOf }}
-  {%- endif %}
+  {% endif %}
