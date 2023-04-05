@@ -58,17 +58,20 @@ spec:
                 - System
 
   steps:
-    - id: regexEntityNames
-      name: Regex Entity Names
+    - id: regexReplace
+      name: Regex Replace
       action: regex:entity-names
       input:
-        values:
-          - key: owner
-            value: ${{ parameters.owner }}
-          - key: system
-            value: ${{ parameters.system }}
-          - key: componentName
-            value: ${{ parameters.componentName }}
+        regExps:
+          - pattern: '/^(\S+:)?(default\/)?(\S+)$/'
+            replacement: $3
+            values:
+              - key: owner
+                value: ${{ parameters.owner }}
+              - key: system
+                value: ${{ parameters.system }}
+              - key: componentName
+                value: ${{ parameters.componentName }}
 
     - id: sourceCodeTemplate
       name: Generating the Source Code Component
@@ -101,7 +104,7 @@ spec:
           applicationType: documentation
           description: Contains the techdocs for ${{ parameters.repoName }}
 
-          regex: ${{ steps.regexEntityNames.output.values }}
+          regex: ${{ steps.regexReplace.output.values }}
 
     - id: publish
       name: Publishing to the Source Code Repository
