@@ -64,7 +64,8 @@ spec:
       input:
         regExps:
           - pattern: ^(\S+:)?(default\/)?(\S+)$
-            flags: x
+            flags:
+              - x
             replacement: $3
             values:
               - key: owner
