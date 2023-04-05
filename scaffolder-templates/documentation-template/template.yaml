@@ -63,7 +63,7 @@ spec:
       action: regex:replace
       input:
         regExps:
-          - pattern: /^(\S+:)?(default\/)?(\S+)$/
+          - pattern: ^(\S+:)?(default\/)?(\S+)$
             replacement: $3
             values:
               - key: owner
