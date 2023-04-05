@@ -60,7 +60,7 @@ spec:
   steps:
     - id: regexReplace
       name: Regex Replace
-      action: regex:entity-names
+      action: regex:replace
       input:
         regExps:
           - pattern: '/^(\S+:)?(default\/)?(\S+)$/'
