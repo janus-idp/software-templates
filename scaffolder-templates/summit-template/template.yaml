@@ -1,0 +1,137 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: summit-template
+  title: Add Tekton to an existing project
+  description: Add Tekton to an existing project
+  tags:
+    - tekton
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+
+  parameters:
+    - title: Provide information about the new component
+      required:
+        - githubOrg
+        - repoName
+        - owner
+        - system
+      properties:
+        githubOrg:
+          title: GitHub Organization
+          type: string
+        repoName:
+          title: Repository Name
+          type: string
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this component is for
+        owner:
+          title: Owner
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - Group
+                - User
+        system:
+          title: System
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - System
+    - title: Provide information about the CI method
+      required:
+        - ci
+      properties:
+        imageRepository:
+          title: Select a registry
+          type: string
+          default: quay.io
+          enum:
+            - quay.io
+            - image-registry.openshift-image-registry.svc:5000
+          enumNames:
+            - Quay
+            - Internal OpenShift Registry
+        imageUrl:
+          title: Image URL
+          type: string
+          description: The Quay.io or OpenShift Image URL <REGISTRY>/<IMAGE_URL>/<REPO_NAME>
+        namespace:
+          title: Namespace
+          type: string
+          description: The namespace for deploying resources
+  steps:
+    - id: ciTemplate
+      name: Generating the CI Component
+      action: fetch:template
+      input:
+        url: ../../scaffolder-skeletons/tekton-skeleton/
+        values:
+          githubOrg: ${{ parameters.githubOrg }}
+          repoName: ${{ parameters.repoName }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          applicationType: gitops
+          description: ${{ parameters.description }}
+          namespace: ${{ parameters.namespace }}
+          imageUrl: ${{ parameters.imageUrl }}
+          imageBuilder: s2i-nodejs
+          imageRepository: ${{ parameters.imageRepository }}
+          port: 3000
+          ci: ../../scaffolder-skeletons/tekton-skeleton/
+
+    - id: catalogTemplate
+      name: Generating the Catalog Info Component
+      action: fetch:template
+      input:
+        url: ../../scaffolder-skeletons/catalog-info-skeleton/
+        values:
+          # Gitops specific values
+          entityKind: Resource
+          dependsOn: ${{ parameters.componentName }}
+
+          # Normal values
+          githubOrg: ${{ parameters.githubOrg }}
+          repoName: ${{ parameters.repoName }}
+          owner: ${{ parameters.owner }}
+          system: ${{ parameters.system }}
+          applicationType: gitops
+          description: ${{ parameters.description }}
+          namespace: ${{ parameters.namespace }}
+          imageUrl: ${{ parameters.imageUrl }}
+          imageBuilder: s2i-nodejs
+          imageRepository: ${{ parameters.imageRepository }}
+          port: 3000
+          ci: ../../scaffolder-skeletons/tekton-skeleton/
+
+    - id: publish
+      name: Publishing to the Source Code Repository
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}-gitops
+        defaultBranch: main
+
+    - id: register
+      name: Registering the Catalog Info Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Open the Gitops Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open the Catalog Info Component
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
