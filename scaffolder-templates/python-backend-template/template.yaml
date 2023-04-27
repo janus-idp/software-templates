@@ -16,14 +16,24 @@ spec:
   parameters:
     - title: Provide information about the new component
       required:
-        - githubOrg
+        - sourceControl
+        - orgName
         - repoName
         - owner
         - system
         - port
       properties:
-        githubOrg:
-          title: GitHub Organization
+        sourceControl:
+          title: Source Control
+          type: string
+          enum:
+            - github.com
+            - gitlab.com
+          enumNames:
+            - GitHub
+            - GitLab
+        orgName:
+          title: Organization Name
           type: string
         repoName:
           title: Repository Name
@@ -108,8 +118,9 @@ spec:
       input:
         url: ./skeleton
         values:
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: api
@@ -129,8 +140,9 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/
         values:
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: api
@@ -148,8 +160,9 @@ spec:
       input:
         url: ../../scaffolder-skeletons/catalog-info-skeleton/
         values:
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: api
@@ -161,13 +174,26 @@ spec:
           port: ${{ parameters.port }}
           ci: ${{ parameters.ci }}
 
+    # Give publish:github and publish:gitlab the same id so
+    # that we don't need if statements in the register step
     - id: publish
+      if: ${{ parameters.sourceControl == 'github.com' }}
       name: Publishing to the Source Code Repository
       action: publish:github
       input:
         allowedHosts: ['github.com']
         description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}
+        defaultBranch: main
+
+    - id: publish
+      if: ${{ parameters.sourceControl == 'gitlab.com' }}
+      name: Publishing to the Source Code Repository
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.com']
+        description: ${{ parameters.description }}
+        repoUrl: gitlab.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}
         defaultBranch: main
 
     - id: register

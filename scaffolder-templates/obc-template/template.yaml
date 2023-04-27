@@ -14,15 +14,34 @@ spec:
   parameters:
     - title: Provide information about the existing component
       required:
-        - githubOrg
+        - sourceControl
+        - orgName
         - repoName
       properties:
-        githubOrg:
-          title: GitHub Organization
+        sourceControl:
+          title: Source Control
+          type: string
+          enum:
+            - github.com
+            - gitlab.com
+          enumNames:
+            - GitHub
+            - GitLab
+        orgName:
+          title: Organization Name
           type: string
         repoName:
           title: Repository Name
           type: string
+        componentName:
+          title: Component Name
+          type: string
+          description: Attach the manifests to an existing component
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - Component
     - title: Provide information about the new component
       required:
         - owner
@@ -59,35 +78,52 @@ spec:
         values:
           # Gitops specific values
           entityKind: Resource
+          partOf: ${{ parameters.componentName }}
 
           # Normal values
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}-gitops
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: gitops
-          description: Contains the OBC manifests for ${{ parameters.repoName }}
+          description: Contains the manifests for ${{ parameters.repoName }}
 
     - id: manifestsTemplate
       name: Generating the Manifests Component
       action: fetch:template
       input:
-        url: ./template
+        url: ./skeleton
         values:
-          githubOrg: ${{ parameters.githubOrg }}
-          repoName: ${{ parameters.repoName }}-gitops
+          orgName: ${{ parameters.orgName }}
+          repoName: ${{ parameters.repoName }}
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: gitops
-          description: Contains the OBC manifests for ${{ parameters.repoName }}
+          description: Contains the manifests for ${{ parameters.repoName }}
+          storageClassName: ${{ parameters.storageClassName }}
 
+    # Give publish:github and publish:gitlab the same id so
+    # that we don't need if statements in the register step
     - id: publish
+      if: ${{ parameters.sourceControl == 'github.com' }}
       name: Publishing to the Source Code Repository
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}-gitops
+        description: Contains the manifests for ${{ parameters.repoName }}
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}-gitops
+        defaultBranch: main
+
+    - id: publish
+      if: ${{ parameters.sourceControl == 'gitlab.com' }}
+      name: Publishing to the Source Code Repository
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.com']
+        description: Contains the manifests for ${{ parameters.repoName }}
+        repoUrl: gitlab.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}-gitops
         defaultBranch: main
 
     - id: register

@@ -15,12 +15,22 @@ spec:
   parameters:
     - title: Provide information about the existing component
       required:
-        - githubOrg
+        - sourceControl
+        - orgName
         - repoName
         - componentName
       properties:
-        githubOrg:
-          title: GitHub Organization
+        sourceControl:
+          title: Source Control
+          type: string
+          enum:
+            - github.com
+            - gitlab.com
+          enumNames:
+            - GitHub
+            - GitLab
+        orgName:
+          title: Organization Name
           type: string
         repoName:
           title: Repository Name
@@ -66,8 +76,9 @@ spec:
         copyWithoutTemplating:
           - .github/workflows/
         values:
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}-techdocs
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: documentation
@@ -82,20 +93,34 @@ spec:
           # Gitops specific values
           partOf: ${{ parameters.componentName }}
 
-          githubOrg: ${{ parameters.githubOrg }}
+          orgName: ${{ parameters.orgName }}
           repoName: ${{ parameters.repoName }}-techdocs
+          sourceControl: ${{ parameters.sourceControl }}
           owner: ${{ parameters.owner }}
           system: ${{ parameters.system }}
           applicationType: documentation
           description: Contains the techdocs for ${{ parameters.repoName }}
 
+    # Give publish:github and publish:gitlab the same id so
+    # that we don't need if statements in the register step
     - id: publish
+      if: ${{ parameters.sourceControl == 'github.com' }}
       name: Publishing to the Source Code Repository
       action: publish:github
       input:
         allowedHosts: ['github.com']
         description: Contains the techdocs for ${{ parameters.repoName }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}-techdocs
+        repoUrl: github.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}-techdocs
+        defaultBranch: main
+
+    - id: publish
+      if: ${{ parameters.sourceControl == 'gitlab.com' }}
+      name: Publishing to the Source Code Repository
+      action: publish:gitlab
+      input:
+        allowedHosts: ['gitlab.com']
+        description: Contains the techdocs for ${{ parameters.repoName }}
+        repoUrl: gitlab.com?owner=${{ parameters.orgName }}&repo=${{ parameters.repoName }}-techdocs
         defaultBranch: main
 
     - id: register
