@@ -12,4 +12,5 @@ spec:
     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/dotnet-frontend-template/template.yaml
     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/spring-boot-backend-template/template.yaml
     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-backend-template/template.yaml
+    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-web-template/template.yaml
     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/argocd-template/template.yaml
