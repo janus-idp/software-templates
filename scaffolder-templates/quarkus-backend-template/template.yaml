@@ -9,8 +9,8 @@ metadata:
     - java
     - maven
 spec:
-  owner: janus-authors
-  system: janus-idp
+  owner: idp-myocp
+  system: idp-myocp
   type: service
 
   parameters:
@@ -196,9 +196,11 @@ spec:
       action: publish:github
       input:
         allowedHosts: ['github.com']
-        description: ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
+        description: This is ${{ parameters.description }}
+        repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
+        protectDefaultBranch: false
+        repoVisibility: public
 
     - id: register
       name: Registering the Catalog Info Component
