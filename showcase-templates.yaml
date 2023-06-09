@@ -4,7 +4,7 @@ metadata:
   name: software-templates
   description: A collection of Backstage templates for Janus-IDP
 spec:
-  type: url
+  type: files
   targets:
 #    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/argocd-template/template.yaml
 #     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/documentation-template/template.yaml
@@ -14,6 +14,9 @@ spec:
 #    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/nodejs-backend-template/template.yaml
 #    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/obc-template/template.yaml
 #     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/python-backend-template/template.yaml
-    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-backend-template/template.yaml
-    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-web-template/template.yaml
+#    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-backend-template/template.yaml
+#    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/quarkus-web-template/template.yaml
 #     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/spring-boot-backend-template/template.yaml
+
+   - scaffolder-templates/quarkus-backend-template/template.yaml
+   - scaffolder-templates/quarkus-web-template/template.yaml
