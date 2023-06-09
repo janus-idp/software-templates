@@ -151,7 +151,7 @@ spec:
       input:
         appName: ${{ parameters.component_id }}-bootstrap
         argoInstance: main
-        namespace: janus-argocd
+        namespace: idp-myocp
         repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
         path: 'argocd/'
 
