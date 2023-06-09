@@ -197,10 +197,11 @@ spec:
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.description }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public
+
 
     - id: register
       name: Registering the Catalog Info Component
