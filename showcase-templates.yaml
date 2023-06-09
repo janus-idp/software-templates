@@ -4,7 +4,7 @@ metadata:
   name: software-templates
   description: A collection of Backstage templates for Janus-IDP
 spec:
-  type: files
+  type: url
   targets:
 #    - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/argocd-template/template.yaml
 #     - https://github.com/idp-myocp/software-templates/blob/main/scaffolder-templates/documentation-template/template.yaml
