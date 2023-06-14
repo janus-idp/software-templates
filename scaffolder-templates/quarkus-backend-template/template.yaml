@@ -14,7 +14,7 @@ spec:
   type: service
 
   parameters:
-    - title: Provide information about the new component
+    - title: Provide information about the new Application
       required:
         - githubOrg
         - repoName
@@ -124,7 +124,7 @@ spec:
                   description: The namespace for deploying resources
   steps:
     - id: template
-      name: Generating the Source Code Component
+      name: Generating Component
       action: fetch:template
       input:
         url: ./skeleton
@@ -200,7 +200,7 @@ spec:
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.description }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
+        repoUrl: ${{ parameters.repoUrl }}
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public

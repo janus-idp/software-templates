@@ -10,7 +10,8 @@ metadata:
     - quarkus
     - maven
 spec:
-  owner: service@example.com
+  owner: idp-myocp
+  system: idp-myocp
   type: service
 
   parameters:
