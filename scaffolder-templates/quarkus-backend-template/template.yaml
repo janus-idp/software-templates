@@ -21,7 +21,12 @@ spec:
         - owner
         - system
         - port
+        - repoUrl
       properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          default: github.com
         githubOrg:
           title: GitHub Organization
           type: string
