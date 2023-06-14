@@ -10,16 +10,16 @@ metadata:
     backstage.io/kubernetes-id: ${{values.artifactId}}
     backstage.io/kubernetes-namespace: ${{values.namespace}}
     janus-idp.io/tekton-enabled : 'true'
-    github.com/project-slug: ${{parameters.githubOrg}}/${{parameters.repoName}}
+    github.com/project-slug: ${{values.githubOrg}}/${{values.repoName}}
     backstage.io/techdocs-ref: dir:.
   tags:
     - java
     - quarkus
   links:
-    - url: https://devspaces${{values.cluster}}/#https://github.com/${{parameters.githubOrg}}/${{parameters.repoName}}?che-editor=che-incubator/che-code/insiders&devfilePath=.devfile-vscode.yaml
+    - url: https://devspaces${{values.cluster}}/#https://github.com/${{values.githubOrg}}/${{values.repoName}}?che-editor=che-incubator/che-code/insiders&devfilePath=.devfile-vscode.yaml
       title: OpenShift Dev Spaces (VS Code)
       icon: web
-    - url: https://devspaces${{values.cluster}}/#https://github.com/${{parameters.githubOrg}}/${{parameters.repoName}}?che-editor=che-incubator/che-idea/latest&devfilePath=.devfile-intellij.yaml
+    - url: https://devspaces${{values.cluster}}/#https://github.com/${{values.githubOrg}}/${{values.repoName}}?che-editor=che-incubator/che-idea/latest&devfilePath=.devfile-intellij.yaml
       title: OpenShift Dev Spaces (JetBrains IntelliJ)
       icon: web
 spec:
