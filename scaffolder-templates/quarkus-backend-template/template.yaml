@@ -144,8 +144,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          cluster: .apps.home.myocp.net
 
     - id: ciTemplate
       name: Generating the CI Component
@@ -170,7 +169,6 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          cluster: .apps.home.myocp.net
 
     - id: catalogTemplate
       name: Generating the Catalog Info Component
