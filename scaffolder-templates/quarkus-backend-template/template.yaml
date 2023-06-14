@@ -21,12 +21,7 @@ spec:
         - owner
         - system
         - port
-        - repoUrl
       properties:
-        repoUrl:
-          title: Repository Location
-          type: string
-          default: github.com
         githubOrg:
           title: GitHub Organization
           type: string
@@ -149,6 +144,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
+
           destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
 
     - id: ciTemplate
@@ -174,7 +170,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          destination: github.com/${{ parameters.githubOrg }}/${{ parameters.repoName }}
 
     - id: catalogTemplate
       name: Generating the Catalog Info Component
@@ -197,7 +193,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          destination: github.com/${{ parameters.githubOrg }}/${{ parameters.repoName }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -205,7 +201,7 @@ spec:
       input:
         allowedHosts: ['github.com']
         description: This is ${{ parameters.description }}
-        repoUrl: ${{ parameters.repoUrl }}
+        repoUrl: github.com
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public
