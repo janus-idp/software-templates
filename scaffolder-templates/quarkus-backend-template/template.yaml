@@ -170,7 +170,6 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          destination: github.com/${{ parameters.githubOrg }}/${{ parameters.repoName }}
 
     - id: catalogTemplate
       name: Generating the Catalog Info Component
@@ -193,7 +192,6 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          destination: github.com/${{ parameters.githubOrg }}/${{ parameters.repoName }}
 
     - id: publish
       name: Publishing to the Source Code Repository
