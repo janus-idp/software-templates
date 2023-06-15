@@ -83,9 +83,9 @@ spec:
           title: Select a CI method
           type: string
           description: This action will create a CI pipeline for your application based on chosen method
-          default: ../../scaffolder-skeletons/github-actions-skeleton/
+          default: ../../scaffolder-skeletons/github-actions-skeleton/ci.yaml
           enum:
-            - ../../scaffolder-skeletons/github-actions-skeleton/
+            - ../../scaffolder-skeletons/github-actions-skeleton/ci.yaml
             - ../../scaffolder-skeletons/tekton-skeleton/
           enumNames:
             - GitHub Action
@@ -96,7 +96,7 @@ spec:
             - properties:
                 # Show no extra properties when GitHub Actions is selected
                 ci:
-                  const: ../../scaffolder-skeletons/github-actions-skeleton/
+                  const: ../../scaffolder-skeletons/github-actions-skeleton/ci.yaml
             - required:
                 - imageRepository
                 - namespace
