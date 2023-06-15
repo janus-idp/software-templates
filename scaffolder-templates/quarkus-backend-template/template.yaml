@@ -84,7 +84,7 @@ spec:
           type: string
           description: This action will create a CI pipeline for your application based on chosen method
           enum:
-            - ../../scaffolder-skeletons/github-actions-skeleton-no-ci/
+            - ../../scaffolder-skeletons/github-actions-skeleton-no-cd/
             - ../../scaffolder-skeletons/tekton-skeleton/
           enumNames:
             - GitHub Action
@@ -95,7 +95,7 @@ spec:
             - properties:
                 # Show no extra properties when GitHub Actions is selected
                 ci:
-                  const: ../../scaffolder-skeletons/github-actions-skeleton-no-ci/
+                  const: ../../scaffolder-skeletons/github-actions-skeleton-no-cd/
             - required:
                 - imageRepository
                 - namespace
