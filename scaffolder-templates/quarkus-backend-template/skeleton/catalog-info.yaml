@@ -7,10 +7,6 @@ metadata:
   {%- endif %}
   annotations:
     argocd/app-name: ${{values.artifactId}}-dev
-    backstage.io/kubernetes-id: ${{values.artifactId}}
-    {%- if values.namespace %}
-    backstage.io/kubernetes-namespace: ${{values.namespace}} | dump}}
-    {%- endif %}
     janus-idp.io/tekton-enabled : 'true'
     github.com/project-slug: ${{values.githubOrg}}/${{values.repoName}}
     backstage.io/techdocs-ref: dir:.
