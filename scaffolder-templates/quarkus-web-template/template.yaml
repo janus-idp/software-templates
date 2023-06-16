@@ -9,8 +9,6 @@ metadata:
     - java
     - quarkus
     - maven
-    - Tekton
-    - ArgoCD
 spec:
   owner: idp-myocp
   system: idp-myocp
