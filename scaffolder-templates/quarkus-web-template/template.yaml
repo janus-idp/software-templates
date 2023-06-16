@@ -2,6 +2,9 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: quarkus-web-template
+  title: Create a Quarkus application with CI/CD integration
+  description: Create a Quarkus application with CI/CD integration. Application deploy and build on OpenShift.
+
   title: Quarkus Service
   description: Create a simple microservice using Quarkus
   tags:
