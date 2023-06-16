@@ -195,7 +195,6 @@ spec:
       name: Publishing to the Source Code Repository
       action: publish:github
       input:
-        allowedHosts: ['github.com']
         description: This is ${{ parameters.description }}
         repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
         defaultBranch: main
