@@ -2,9 +2,6 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: quarkus-web-template
-  title: Create a Quarkus application with a CI pipeline
-  description: Create a starter Quarkus application with a CI pipeline
-
   title: Quarkus Service with CI/CD
   description: Create a simple microservice using Quarkus with tekton and argoCD templates.
   tags:
