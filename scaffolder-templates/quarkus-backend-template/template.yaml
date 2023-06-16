@@ -8,6 +8,7 @@ metadata:
     - quarkus
     - java
     - maven
+    - ci
 spec:
   owner: idp-myocp
   system: idp-myocp
