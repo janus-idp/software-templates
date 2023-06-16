@@ -6,12 +6,14 @@ metadata:
   description: Create a Quarkus application with CI/CD integration. Application deploy and build on OpenShift.
 
   title: Quarkus Service
-  description: Create a simple microservice using Quarkus
+  description: Create a Quarkus application with CI/CD integration. Application deploy and build on OpenShift.
   tags:
     - recommended
     - java
     - quarkus
     - maven
+    - CI
+    - CD
 spec:
   owner: idp-myocp
   system: idp-myocp
