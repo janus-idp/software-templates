@@ -1,0 +1,109 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: ansible-playbook
+  title: Ansible Playbook
+  description: Upload an Ansible Playbook to Git
+  tags:
+    - recommended
+    - aap
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+  parameters:
+    - title: Provide information about the GitHub location
+      required:
+        - githubOrg
+        - repoName
+        - owner
+        - system
+      properties:
+        githubOrg:
+          title: GitHub Organization
+          type: string
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+        repoName:
+          title: Repository Name
+          type: string
+        system:
+          title: System
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - System
+    - title: Ansible Playbook definition
+      required:
+        - playbook
+        - playbookName
+        - description
+      properties:
+        playbookName:
+          title: Playbook Name
+          type: string
+          description: Provide a name for the Ansible Playbook
+        playbook:
+          title: Playbook
+          type: string
+          description: Ansible Playbook definition
+          ui:widget: textarea
+          ui:options:
+            rows: 15
+        description:
+          title: Description
+          type: string
+          description: Description of the Ansible Playbook
+  steps:
+    - id: template
+      name: Generating the source code component
+      action: fetch:template
+      input:
+        url: ./skeleton
+        targetPath: playbooks/
+        values:
+          component_id: ${{ parameters.playbookName }}
+          name: ${{ parameters.playbookName }}
+          playbook: ${{ parameters.playbook }}
+          playbookName: ${{ parameters.playbookName }}
+
+    - id: catalogTemplate
+      name: Generating the Catalog Info Component
+      action: fetch:template
+      input:
+        url: ../../scaffolder-skeletons/catalog-info-skeleton/
+        values:
+          githubOrg: ${{ parameters.githubOrg }}
+          repoName: ${{ parameters.repoName }}
+          owner: ${{ parameters.owner }}
+          applicationType: api
+          description: ${{ parameters.description }}
+
+    - id: publish
+      name: Publishing to Source Code Repository
+      action: publish:github:pull-request
+      input:
+        allowedHosts: ['github.com']
+        title: ${{ parameters.playbookName }}
+        description: ${{ parameters.description }}
+        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}
+        branchName: ${{ parameters.playbookName }}
+
+    - id: register
+      name: Registering the Catalog Info Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: /catalog-info.yaml
+
+  output:
+    links:
+      - title: Source Code Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open the Catalog Info Component
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
