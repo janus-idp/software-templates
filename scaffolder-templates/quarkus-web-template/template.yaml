@@ -152,7 +152,7 @@ spec:
       input:
         appName: ${{ parameters.component_id }}-bootstrap
         argoInstance: main
-        namespace: idp-gitops
+        namespace: janus-argocd
         repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
         path: 'argocd/'
 
