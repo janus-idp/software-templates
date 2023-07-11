@@ -62,13 +62,10 @@ spec:
       name: Generating component
       action: fetch:template
       input:
-        url: ../../scaffolder-skeletons/catalog-info-skeleton/
+        url: ./skeleton
+        copyWithoutTemplating:
+          - .github/workflows/*
         values:
-          # Gitops specific values
-          entityKind: Resource
-          dependsOn: ${{ parameters.component_id  }}
-
-          # Normal values
           component_id: ${{ parameters.component_id }}
           namespace: ${{ parameters.component_id }}-dev
           description: ${{ parameters.description }}
