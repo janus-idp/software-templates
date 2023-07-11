@@ -17,7 +17,6 @@ spec:
       required:
         - githubOrg
         - repoName
-        - port
         - componentName
       properties:
         githubOrg:
@@ -35,10 +34,6 @@ spec:
             catalogFilter:
               kind:
                 - Component
-        port:
-          title: Port
-          type: number
-          description: The port exposed for the application
     - title: Provide information about the new component
       required:
         - owner
@@ -63,34 +58,13 @@ spec:
                 - System
     - title: Provide information about the ArgoCD deployment
       required:
-        - imageRepository
         - namespace
-        - imageUrl
-        - hostUrl
       properties:
-        imageRepository:
-          title: Select a registry
-          type: string
-          default: quay.io
-          enum:
-            - quay.io
-            - image-registry.openshift-image-registry.svc:5000
-          enumNames:
-            - Quay
-            - Internal OpenShift Registry
-        imageUrl:
-          title: Image URL
-          type: string
-          description: Enter the Quay.io or OpenShift Image URL <REGISTRY>/<IMAGE_URL>/<REPO_NAME>
         namespace:
           title: Namespace
           type: string
-          default: system:janus-idp
+          default: janus-argocd
           description: The namespace for deploying resources
-        hostUrl:
-          title: Host URL
-          type: string
-          description: The external facing host URL
   steps:
     - id: catalogTemplate
       name: Generating the Catalog Info Component
@@ -110,16 +84,12 @@ spec:
           applicationType: gitops
           description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
           namespace: ${{ parameters.namespace }}
-          imageUrl: ${{ parameters.imageUrl }}
-          hostUrl: ${{ parameters.hostUrl }}
-          imageRepository: ${{ parameters.imageRepository }}
-          port: ${{ parameters.port }}
 
     - id: manifestsTemplate
       name: Generating the Manifests Component
       action: fetch:template
       input:
-        url: ../../scaffolder-skeletons/manifests-skeleton/
+        url: ../../scaffolder-skeletons/manifests-skeleton-bootstrap/
         values:
           githubOrg: ${{ parameters.githubOrg }}
           repoName: ${{ parameters.repoName }}
@@ -128,10 +98,6 @@ spec:
           applicationType: gitops
           description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
           namespace: ${{ parameters.namespace }}
-          imageUrl: ${{ parameters.imageUrl }}
-          hostUrl: ${{ parameters.hostUrl }}
-          imageRepository: ${{ parameters.imageRepository }}
-          port: ${{ parameters.port }}
 
     - id: publish
       name: Publishing to the Source Code Repository
@@ -153,11 +119,10 @@ spec:
       name: Create the ArgoCD Resources
       action: argocd:create-resources
       input:
-        appName: ${{ parameters.repoName }}
-        # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
-        argoInstance: argocd.operate-first.cloud
-        namespace: ${{ parameters.namespace }}
-        repoUrl: ${{ steps.publish.output.remoteUrl }}
+        appName: ${{ parameters.component_id }}-bootstrap
+        argoInstance: main
+        namespace: janus-argocd
+        repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
         labelValue: ${{ parameters.repoName }}
         path: manifests/base
 
