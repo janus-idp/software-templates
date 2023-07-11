@@ -153,11 +153,10 @@ spec:
       name: Create the ArgoCD Resources
       action: argocd:create-resources
       input:
-        appName: ${{ parameters.repoName }}
-        # Hardcoded value because this is kept as a secret on the server to allow forks to easily change the value
-        argoInstance: argocd.operate-first.cloud
-        namespace: ${{ parameters.namespace }}
-        repoUrl: ${{ steps.publish.output.remoteUrl }}
+        appName: ${{ parameters.component_id }}-bootstrap
+        argoInstance: main
+        namespace: janus-argocd
+        repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
         labelValue: ${{ parameters.repoName }}
         path: manifests/base
 
