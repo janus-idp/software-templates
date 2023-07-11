@@ -85,7 +85,7 @@ spec:
         namespace:
           title: Namespace
           type: string
-          default: system:janus-idp
+          default: janus-argocd
           description: The namespace for deploying resources
         hostUrl:
           title: Host URL
