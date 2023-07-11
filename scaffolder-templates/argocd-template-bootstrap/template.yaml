@@ -1,16 +1,18 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: Project Bootstrapping
+  name: OCP Project Creation
   title: Create and OpenShift project with ArgoCD
   description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - gitOPs
-    - OpenShift
+    - recommended
+    - java
+    - quarkus
+    - maven
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: Ops
+  type: service
 
   parameters:
     - title: Provide Information for Application
