@@ -10,7 +10,7 @@ metadata:
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: Ops
+  type: service
 
   parameters:
     - title: Project Information
