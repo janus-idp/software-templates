@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: ${{ values.destination }}
     targetRevision: HEAD
-    path: manifests/base
+    path: ./base
   destination:
     server: https://kubernetes.default.svc
     namespace: ${{ values.namespace }}
