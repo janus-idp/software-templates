@@ -1,22 +1,23 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: Project Bootstrap
+  name: Project Bootstrapping
   title: Create and OpenShift project with ArgoCD
-  description: This template create a project with quota and limits for openshift bootstrap by argoCD
+  description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - gitOps
+    - gitOPs
     - OpenShift
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: service
+  type: Ops
 
   parameters:
     - title: Provide Information for Application
       required:
         - component_id
         - owner
+        - java_package_name
       properties:
         component_id:
           title: Name
@@ -24,6 +25,21 @@ spec:
           description: Unique name of the component
           default: my-quarkus-app
           ui:field: EntityNamePicker
+        group_id:
+          title: Group Id
+          type: string
+          default: redhat.janus
+          description: Maven Group Id
+        artifact_id:
+          title: Artifact Id
+          type: string
+          default: quarkus-app
+          description: Maven Artifact Id
+        java_package_name:
+          title: Java Package Name
+          default: org.redhat.janus
+          type: string
+          description: Name for the java package. eg (com.redhat.blah)
         description:
           title: Description
           type: string
@@ -36,6 +52,18 @@ spec:
           ui:options:
             allowedKinds:
               - Group
+    - title: Provide Build Information
+      properties:
+        image_host:
+          title: Image Host
+          type: string
+          description: Host for storing image (defaults to openshift internal)
+          default: image-registry.openshift-image-registry.svc:5000
+        image_tag:
+          title: Image Tag
+          default: latest
+          type: string
+          description: Build Image tag
     - title: Application repository Information
       required:
         - repoUrl
@@ -49,6 +77,35 @@ spec:
               - github.com
 
   steps:
+    - id: template
+      name: Generating component
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutTemplating:
+          - .github/workflows/*
+        values:
+          component_id: ${{ parameters.component_id }}
+          namespace: ${{ parameters.component_id }}-dev
+          description: ${{ parameters.description }}
+          group_id: ${{ parameters.group_id }}
+          artifact_id: ${{ parameters.artifact_id }}
+          java_package_name: ${{ parameters.java_package_name }}
+          owner: ${{ parameters.owner }}
+          cluster: .apps.home.myocp.net
+          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          port: 8080
+
+    - id: publish
+      name: Publishing to Source Code Repository
+      action: publish:github
+      input:
+        description: This is ${{ parameters.component_id }}
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+        protectDefaultBranch: false
+        repoVisibility: public
+
     - id: register
       name: Registering to the Catalog
       action: catalog:register
@@ -70,7 +127,11 @@ spec:
           repository_name: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
           git_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
           cluster: .apps.home.myocp.net
-          namespace: ${{ parameters.component_id }}
+          namespace: ${{ parameters.component_id }}-dev
+          image_host: ${{ parameters.image_host }}
+          image_name: ${{ parameters.component_id }}
+          image_tag: ${{ parameters.image_tag }}
+          port: 8080
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
