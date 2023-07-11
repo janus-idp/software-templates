@@ -5,4 +5,6 @@ resources:
   - deployment.yaml
   - service.yaml
   - namespace.yaml
+  - resource-quota.yaml
+  - limit-range.yaml
   
