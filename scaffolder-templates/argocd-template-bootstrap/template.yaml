@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: OCP Project Creation
-  title: Create and OpenShift project with ArgoCD
+  name: opc-project-creation
+  title: OpenShift Project with ArgoCD
   description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
     - recommended
