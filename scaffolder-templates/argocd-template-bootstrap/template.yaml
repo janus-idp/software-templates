@@ -58,6 +58,25 @@ spec:
               - github.com
 
   steps:
+    - id: template
+      name: Generating component
+      action: fetch:template
+      input:
+        url: ../../scaffolder-skeletons/catalog-info-skeleton/
+        values:
+          # Gitops specific values
+          entityKind: Resource
+          dependsOn: ${{ parameters.component_id  }}
+
+          # Normal values
+          component_id: ${{ parameters.component_id }}
+          namespace: ${{ parameters.component_id }}-dev
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+          cluster: .apps.home.myocp.net
+          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          port: 8080
+
     - id: register
       name: Registering to the Catalog
       action: catalog:register
