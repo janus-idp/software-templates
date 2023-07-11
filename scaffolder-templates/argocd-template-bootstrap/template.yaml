@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: Project Bootstrapping
+  name: Project Bootstrap
   title: Create and OpenShift project with ArgoCD
   description: This template create a project with quota and limits for openshift bootstrap by argoCD
   tags:
