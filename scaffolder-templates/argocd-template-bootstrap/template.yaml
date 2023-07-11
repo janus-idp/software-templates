@@ -22,7 +22,6 @@ spec:
           title: Name
           type: string
           description: Unique name of the component
-          default: my-quarkus-app
           ui:field: EntityNamePicker
         description:
           title: Description
@@ -32,10 +31,8 @@ spec:
           title: Owner
           type: string
           description: IdP owner of the component
-          ui:field: OwnerPicker
-          ui:options:
-            allowedKinds:
-              - Group
+          default: idp-myocp
+          ui:field: EntityNamePicker
     - title: Provide project quotas and limits
       properties:
         image_host:
@@ -61,35 +58,6 @@ spec:
               - github.com
 
   steps:
-    - id: template
-      name: Generating component
-      action: fetch:template
-      input:
-        url: ./skeleton
-        copyWithoutTemplating:
-          - .github/workflows/*
-        values:
-          component_id: ${{ parameters.component_id }}
-          namespace: ${{ parameters.component_id }}-dev
-          description: ${{ parameters.description }}
-          group_id: ${{ parameters.group_id }}
-          artifact_id: ${{ parameters.artifact_id }}
-          java_package_name: ${{ parameters.java_package_name }}
-          owner: ${{ parameters.owner }}
-          cluster: .apps.home.myocp.net
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
-          port: 8080
-
-    - id: publish
-      name: Publishing to Source Code Repository
-      action: publish:github
-      input:
-        description: This is ${{ parameters.component_id }}
-        repoUrl: ${{ parameters.repoUrl }}
-        defaultBranch: main
-        protectDefaultBranch: false
-        repoVisibility: public
-
     - id: register
       name: Registering to the Catalog
       action: catalog:register
