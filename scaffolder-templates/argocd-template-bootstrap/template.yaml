@@ -10,7 +10,7 @@ metadata:
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: operation
+  type: service
 
   parameters:
     - title: Provide Information for Application
