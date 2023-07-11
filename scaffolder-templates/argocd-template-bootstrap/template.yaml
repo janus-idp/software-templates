@@ -5,18 +5,19 @@ metadata:
   title: OpenShift Project with ArgoCD
   description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - GitOps
-    - OpenShift
+    - gitOps
+    - openShift
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: service
+  type: operation
 
   parameters:
-    - title: Project Information
+    - title: Provide Information for Application
       required:
         - component_id
         - owner
+        - java_package_name
       properties:
         component_id:
           title: Name
@@ -24,6 +25,21 @@ spec:
           description: Unique name of the component
           default: my-quarkus-app
           ui:field: EntityNamePicker
+        group_id:
+          title: Group Id
+          type: string
+          default: redhat.janus
+          description: Maven Group Id
+        artifact_id:
+          title: Artifact Id
+          type: string
+          default: quarkus-app
+          description: Maven Artifact Id
+        java_package_name:
+          title: Java Package Name
+          default: org.redhat.janus
+          type: string
+          description: Name for the java package. eg (com.redhat.blah)
         description:
           title: Description
           type: string
@@ -36,7 +52,7 @@ spec:
           ui:options:
             allowedKinds:
               - Group
-    - title: Project Quota and Limits
+    - title: Provide Build Information
       properties:
         image_host:
           title: Image Host
@@ -48,7 +64,7 @@ spec:
           default: latest
           type: string
           description: Build Image tag
-    - title: Project repository Information
+    - title: Application repository Information
       required:
         - repoUrl
       properties:
