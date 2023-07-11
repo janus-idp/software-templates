@@ -42,12 +42,6 @@ spec:
         owner:
           title: Owner
           type: string
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind:
-                - Group
-                - User
         system:
           title: System
           type: string
