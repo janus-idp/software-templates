@@ -1,25 +1,22 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: opc-project-creation
+  name: ocp-project-creation
   title: OpenShift Project with ArgoCD
   description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - recommended
-    - java
-    - quarkus
-    - maven
+    - GitOps
+    - OpenShift
 spec:
   owner: idp-myocp
   system: idp-myocp
-  type: service
+  type: Ops
 
   parameters:
-    - title: Provide Information for Application
+    - title: Project Information
       required:
         - component_id
         - owner
-        - java_package_name
       properties:
         component_id:
           title: Name
@@ -27,21 +24,6 @@ spec:
           description: Unique name of the component
           default: my-quarkus-app
           ui:field: EntityNamePicker
-        group_id:
-          title: Group Id
-          type: string
-          default: redhat.janus
-          description: Maven Group Id
-        artifact_id:
-          title: Artifact Id
-          type: string
-          default: quarkus-app
-          description: Maven Artifact Id
-        java_package_name:
-          title: Java Package Name
-          default: org.redhat.janus
-          type: string
-          description: Name for the java package. eg (com.redhat.blah)
         description:
           title: Description
           type: string
@@ -54,7 +36,7 @@ spec:
           ui:options:
             allowedKinds:
               - Group
-    - title: Provide Build Information
+    - title: Project Quota and Limits
       properties:
         image_host:
           title: Image Host
@@ -66,7 +48,7 @@ spec:
           default: latest
           type: string
           description: Build Image tag
-    - title: Application repository Information
+    - title: Project repository Information
       required:
         - repoUrl
       properties:
