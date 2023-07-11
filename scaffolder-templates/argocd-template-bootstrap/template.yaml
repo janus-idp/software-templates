@@ -5,8 +5,8 @@ metadata:
   title: OpenShift Project with ArgoCD
   description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - gitOps
-    - openShift
+    - gitops
+    - openshift
 spec:
   owner: idp-myocp
   system: idp-myocp
