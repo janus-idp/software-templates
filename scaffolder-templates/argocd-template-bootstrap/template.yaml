@@ -1,119 +1,60 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: argocd-template
-  title: Add ArgoCD to an existing project
-  description: Add ArgoCD to an existing project
+  name: Project Bootstrapping
+  title: Create and OpenShift project with ArgoCD
+  description: This template create a project with quota and limits for openshift bootstrap by argoCD
   tags:
-    - recommended
-    - argocd
+    - gitOps
+    - OpenShift
 spec:
-  owner: janus-authors
-  system: janus-idp
+  owner: idp-myocp
+  system: idp-myocp
   type: service
 
   parameters:
-    - title: Provide information about the existing component
+    - title: Provide Information for Application
       required:
-        - githubOrg
-        - repoName
-        - componentName
-      properties:
-        githubOrg:
-          title: GitHub Organization
-          type: string
-        repoName:
-          title: Repository Name
-          type: string
-        componentName:
-          title: Component Name
-          type: string
-          description: Attach the manifests to an existing component
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind:
-                - Component
-    - title: Provide information about the new component
-      required:
+        - component_id
         - owner
-        - system
       properties:
+        component_id:
+          title: Name
+          type: string
+          description: Unique name of the component
+          default: my-quarkus-app
+          ui:field: EntityNamePicker
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this website is for.
         owner:
           title: Owner
           type: string
-          ui:field: EntityPicker
+          description: IdP owner of the component
+          ui:field: OwnerPicker
           ui:options:
-            catalogFilter:
-              kind:
-                - Group
-                - User
-        system:
-          title: System
-          type: string
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind:
-                - System
-    - title: Provide information about the ArgoCD deployment
+            allowedKinds:
+              - Group
+    - title: Application repository Information
       required:
-        - namespace
+        - repoUrl
       properties:
-        namespace:
-          title: Namespace
+        repoUrl:
+          title: Repository Location
           type: string
-          default: janus-argocd
-          description: The namespace for deploying resources
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
   steps:
-    - id: catalogTemplate
-      name: Generating the Catalog Info Component
-      action: fetch:template
-      input:
-        url: ../../scaffolder-skeletons/catalog-info-skeleton/
-        values:
-          # Gitops specific values
-          entityKind: Resource
-          dependsOn: ${{ parameters.componentName }}
-
-          # Normal values
-          githubOrg: ${{ parameters.githubOrg }}
-          repoName: ${{ parameters.repoName }}-gitops
-          owner: ${{ parameters.owner }}
-          system: ${{ parameters.system }}
-          applicationType: gitops
-          description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
-          namespace: ${{ parameters.namespace }}
-
-    - id: manifestsTemplate
-      name: Generating the Manifests Component
-      action: fetch:template
-      input:
-        url: ../../scaffolder-skeletons/manifests-skeleton-bootstrap/
-        values:
-          githubOrg: ${{ parameters.githubOrg }}
-          repoName: ${{ parameters.repoName }}
-          owner: ${{ parameters.owner }}
-          system: ${{ parameters.system }}
-          applicationType: gitops
-          description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
-          namespace: ${{ parameters.namespace }}
-
-    - id: publish
-      name: Publishing to the Source Code Repository
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: Contains the ArgoCD manifests for ${{ parameters.repoName }}
-        repoUrl: github.com?owner=${{ parameters.githubOrg }}&repo=${{ parameters.repoName }}-gitops
-        defaultBranch: main
-
     - id: register
-      name: Registering the Catalog Info Component
+      name: Registering to the Catalog
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-        catalogInfoPath: /catalog-info.yaml
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: template-gitops-deployment
       name: Generating Deployment Resources
@@ -122,24 +63,40 @@ spec:
         url: ./manifests
         copyWithoutTemplating: []
         values:
+          component_id: ${{ parameters.component_id }}
+          description: ${{ parameters.description }}
           destination: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops
+          source_repository: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          repository_name: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          git_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
+          cluster: .apps.home.myocp.net
+          namespace: ${{ parameters.component_id }}
         targetPath: ./tenant-gitops
 
-    - id: createArgocdResources
-      name: Create the ArgoCD Resources
+    - id: publish-gitops
+      name: Publishing to Resource Repository
+      action: publish:github
+      input:
+        repoUrl: github.com?repo=${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops&owner=${{ (parameters.repoUrl | parseRepoUrl).owner }}
+        title: gitops resources for ${{ parameters.component_id }}
+        description: gitops resources for ${{ parameters.component_id }}
+        sourcePath: ./tenant-gitops
+        repoVisibility: public
+
+    - id: create-argocd-resources
+      name: Create ArgoCD Resources
       action: argocd:create-resources
       input:
         appName: ${{ parameters.component_id }}-bootstrap
         argoInstance: main
         namespace: janus-argocd
         repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
-        labelValue: ${{ parameters.repoName }}
-        path: 'manifests/argocd'
+        path: 'argocd/'
 
   output:
     links:
-      - title: Open the Source Code Repository
+      - title: Source Code Repository
         url: ${{ steps.publish.output.remoteUrl }}
-      - title: Open the Catalog Info Component
+      - title: Open Component in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
