@@ -123,8 +123,7 @@ spec:
         argoInstance: main
         namespace: janus-argocd
         repoUrl: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops.git
-        labelValue: ${{ parameters.repoName }}
-        path: manifests/base
+        path: 'argocd/'
 
   output:
     links:
