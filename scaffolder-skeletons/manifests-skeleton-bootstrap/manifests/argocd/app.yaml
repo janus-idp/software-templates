@@ -8,9 +8,9 @@ metadata:
 spec:
   project: janus
   source:
-    path: manifests/base
-    repoURL: https://github.com/${{ values.githubOrg }}/${{ values.repoName }}
+    repoURL: ${{ values.destination }}
     targetRevision: HEAD
+    path: manifests/base
   destination:
     server: https://kubernetes.default.svc
     namespace: ${{ values.namespace }}
