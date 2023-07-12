@@ -211,7 +211,7 @@ spec:
           limits_cpu: ${{ parameters.limit_cpu}}
           limits_memory: ${{ parameters.limit_memory}}
           default_cpu: ${{ parameters.default_cpu}}
-          default__memory: ${{ parameters.default__memory}}
+          default_memory: ${{ parameters.default__memory}}
           default_request_cpu: ${{ parameters.default_request_cpu}}
           default_request_memory: ${{ parameters.default_request_memory}}
           pods: ${{ parameters.pods}}
