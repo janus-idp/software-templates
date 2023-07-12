@@ -8,9 +8,9 @@ metadata:
 spec:
   limits:
   - default:
-      cpu: 200m
-      memory: 512Mi
+      cpu: ${{ values.default_cpu }}
+      memory: ${{ values.default__memory }} Mi
     defaultRequest:
-      cpu: 100m
-      memory: 256Mi
+      cpu: ${{ values.default_request_cpu }}m
+      memory: ${{ values.default_request_memory }}Mi
     type: Container

@@ -98,6 +98,54 @@ spec:
             - Small
             - Medium
             - Large
+
+    - title: Provide Limits Range for Container in Project
+      properties:
+        default_cpu:
+          title: Default CPU Limit
+          type: integer
+          enum:
+            - 200
+            - 500
+            - 1000
+          enumNames: 
+            - Small
+            - Medium
+            - Large
+        default_memory:
+          title: Default Memory Limit
+          type: integer
+          enum:
+            - 256
+            - 512
+            - 1024
+          enumNames: 
+            - Small
+            - Medium
+            - Large
+        default_request_cpu:
+          title: Default CPU Limit
+          type: integer
+          enum:
+            - 100
+            - 200
+            - 500
+          enumNames: 
+            - Small
+            - Medium
+            - Large
+        default_request_memory:
+          title: Default Memory Limit
+          type: integer
+          enum:
+            - 256
+            - 512
+            - 1024
+          enumNames: 
+            - Small
+            - Medium
+            - Large
+
     - title: Provide Repository Information for Project
       required:
         - repoUrl
@@ -160,8 +208,12 @@ spec:
           namespace: ${{ parameters.component_id }}-dev
           request_cpu: ${{ parameters.request_cpu}}
           request_memory: ${{ parameters.request_memory}}
-          limit_cpu: ${{ parameters.limit_cpu}}
-          limit_memory: ${{ parameters.limit_memory}}
+          limits_cpu: ${{ parameters.limit_cpu}}
+          limits_memory: ${{ parameters.limit_memory}}
+          default_cpu: ${{ parameters.default_cpu}}
+          default__memory: ${{ parameters.default__memory}}
+          default_request_cpu: ${{ parameters.default_request_cpu}}
+          default_request_memory: ${{ parameters.default_request_memory}}
           pods: ${{ parameters.pods}}
         targetPath: ./tenant-gitops
 
