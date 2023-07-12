@@ -82,7 +82,7 @@ spec:
       action: fetch:template
       input:
         url: ./skeleton
-        copyWithoutTemplating: a[]
+        copyWithoutTemplating: []
         values:
           component_id: ${{ parameters.component_id }}
           namespace: ${{ parameters.component_id }}-dev
