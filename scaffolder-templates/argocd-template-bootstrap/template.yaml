@@ -71,7 +71,7 @@ spec:
           description: ${{ parameters.description }}
           owner: ${{ parameters.owner }}
           cluster: .apps.home.myocp.net
-          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops
           port: 8080
 
     - id: register

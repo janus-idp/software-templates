@@ -1,5 +1,5 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: Resource
 metadata:
   name: ${{values.component_id | dump}}
   {%- if values.description %}
@@ -15,6 +15,13 @@ metadata:
   tags:
     - gitops
     - openshift
+  links:
+    - url: https://devspaces${{values.cluster}}/#https://github.com/${{values.destination}}?che-editor=che-incubator/che-code/insiders&devfilePath=.devfile-vscode.yaml
+      title: OpenShift Dev Spaces (VS Code)
+      icon: web
+    - url: https://devspaces${{values.cluster}}/#https://github.com/${{values.destination}}?che-editor=che-incubator/che-idea/latest&devfilePath=.devfile-intellij.yaml
+      title: OpenShift Dev Spaces (JetBrains IntelliJ)
+      icon: web
 spec:
   type: operations
   lifecycle: production
