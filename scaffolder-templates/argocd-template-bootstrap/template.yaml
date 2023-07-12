@@ -208,8 +208,8 @@ spec:
           namespace: ${{ parameters.component_id }}-dev
           request_cpu: ${{ parameters.request_cpu}}
           request_memory: ${{ parameters.request_memory}}
-          limits_cpu: ${{ parameters.limit_cpu}}
-          limits_memory: ${{ parameters.limit_memory}}
+          limits_cpu: ${{ parameters.limits_cpu}}
+          limits_memory: ${{ parameters.limits_memory}}
           default_cpu: ${{ parameters.default_cpu}}
           default_memory: ${{ parameters.default_memory}}
           default_request_cpu: ${{ parameters.default_request_cpu}}
