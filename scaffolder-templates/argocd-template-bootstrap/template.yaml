@@ -126,6 +126,8 @@ spec:
         description: gitops resources for ${{ parameters.component_id }}
         sourcePath: ./tenant-gitops
         repoVisibility: public
+        defaultBranch: main
+        protectDefaultBranch: false
 
     - id: register
       name: Registering to the Catalog
