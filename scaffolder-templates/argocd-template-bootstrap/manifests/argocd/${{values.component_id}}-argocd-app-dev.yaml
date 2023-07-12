@@ -1,7 +1,8 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ${{ values.repoName | dump }}
+  name: ${{ values.component_id }}-dev
   namespace: janus-argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io  
@@ -10,10 +11,16 @@ spec:
   source:
     repoURL: ${{ values.destination }}
     targetRevision: HEAD
-    path: ./base
+    path: ./helm/app
+    helm:
+      parameters:
+      - name: namespace.name
+        value: ${{ values.component_id }}-dev
+      - name: environment
+        value: dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: ${{ values.namespace }}
+    namespace: ${{ values.component_id }}-dev
   syncPolicy:
     automated: 
       prune: true
