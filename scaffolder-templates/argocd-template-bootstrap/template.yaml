@@ -1,14 +1,12 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: quarkus-web-template
-  title: Quarkus Service with CI/CD
-  description: Create a simple microservice using Quarkus with tekton and argoCD templates.
+  name: openshift-project-argocd
+  title: OpenShift Project with ArgoCD
+  description: Template to create a project with quota and limits for openshift using ArgoCD
   tags:
-    - recommended
-    - java
-    - quarkus
-    - maven
+    - gitpps
+    - openshift
 spec:
   owner: idp-myocp
   system: idp-myocp
