@@ -134,6 +134,13 @@ spec:
         sourcePath: ./tenant-gitops
         repoVisibility: public
 
+    - id: register
+      name: Registering to the Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish-gitops.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
     - id: create-argocd-resources
       name: Create ArgoCD Resources
       action: argocd:create-resources
