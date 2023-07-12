@@ -53,46 +53,52 @@ spec:
         request_memory:
           title: Request Memory
           type: string
-          description: The sum of memory that can't be exceed accross all pods.
+          description: The sum of memory that can't be exceed accross all pods. In Gi
+          enum:
+            - 1
+            - 2
+            - 10
           enumNames: 
-            - Small (1)
-            - Medium (2)
-            - Large (10)
+            - Small
+            - Medium
+            - Large
         limits_cpu:
           title: Limits CPU
           type: string
           description: The sum of CPU  cannot exceed this value accross all pods.
+          enum:
+            - 2
+            - 3
+            - 6
           enumNames: 
-            - Small (2)
-            - Medium (3)
-            - Large (6)          
+            - Small
+            - Medium
+            - Large
         limits_memory:
           title: Limits Memory
           type: string
-          description: The sum of Memory  cannot exceed this value accross all pods.
+          description: The sum of Memory  cannot exceed this value accross all pods. In Gi
+          enum:
+            - 2
+            - 4
+            - 20
           enumNames: 
-            - Small (2)
-            - Medium (4)
-            - Large (20)          
+            - Small
+            - Medium
+            - Large
         pods:
           title: Pods
           type: string
           description: The sum of Pods that can exist in the namespace.
+          enum:
+            - 10
+            - 20
+            - 40
           enumNames: 
-            - Small (10)
-            - Medium (20)
-            - Large (40)          
-        image_host:
-          title: Image Host
-          type: string
-          description: Host for storing image (defaults to openshift internal)
-          default: image-registry.openshift-image-registry.svc:5000
-        image_tag:
-          title: Image Tag
-          default: latest
-          type: string
-          description: Build Image tag
-    - title: Provide Repository Informatoin for Project
+            - Small
+            - Medium
+            - Large
+    - title: Provide Repository Information for Project
       required:
         - repoUrl
       properties:
@@ -152,10 +158,11 @@ spec:
           git_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
           cluster: .apps.home.myocp.net
           namespace: ${{ parameters.component_id }}-dev
-          image_host: ${{ parameters.image_host }}
-          image_name: ${{ parameters.component_id }}
-          image_tag: ${{ parameters.image_tag }}
-          port: 8080
+          request_cpu: ${{ parameters.request_cpu}}
+          request_memory: ${{ parameters.request_memory}}
+          limit_cpu: ${{ parameters.limit_cpu}}
+          limit_memory: ${{ parameters.limit_memory}}
+          pods: ${{ parameters.pods}}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops

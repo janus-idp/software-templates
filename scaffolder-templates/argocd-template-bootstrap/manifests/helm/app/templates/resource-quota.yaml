@@ -7,8 +7,8 @@ metadata:
     backstage.io/kubernetes-id: ${{ values.namespace }}
 spec:
   hard:
-    requests.cpu: "1"
-    requests.memory: 1Gi
-    limits.cpu: "2"
-    limits.memory: 2Gi
-    pods: "10"
+    requests.cpu: "${{ values.request_cpu}}"
+    requests.memory: ${{ values.request_memory}}Gi
+    limits.cpu: "${{ values.limit_cpu}}"
+    limits.memory: ${{ values.limit_memory}}Gi
+    pods: "${{ values.pods}}"
