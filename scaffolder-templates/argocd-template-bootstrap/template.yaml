@@ -96,16 +96,6 @@ spec:
           destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           port: 8080
 
-    - id: publish
-      name: Publishing to Source Code Repository
-      action: publish:github
-      input:
-        description: This is ${{ parameters.component_id }}
-        repoUrl: ${{ parameters.repoUrl }}
-        defaultBranch: main
-        protectDefaultBranch: false
-        repoVisibility: public
-
     - id: register
       name: Registering to the Catalog
       action: catalog:register
