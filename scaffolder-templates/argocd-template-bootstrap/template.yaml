@@ -42,10 +42,14 @@ spec:
           title: Request CPU
           type: string
           description: The sum of CPU cannot that can't be exceed accross all pods.
+          enum:
+            - 1
+            - 2
+            - 5
           enumNames: 
-            - Small (1)
-            - Medium (2)
-            - Large (5)
+            - Small
+            - Medium
+            - Large
         request_memory:
           title: Request Memory
           type: string
