@@ -124,7 +124,7 @@ spec:
             - Medium
             - Large
         default_request_cpu:
-          title: Default CPU Limit
+          title: Default Request CPU Limit
           type: integer
           enum:
             - 100
@@ -135,7 +135,7 @@ spec:
             - Medium
             - Large
         default_request_memory:
-          title: Default Memory Limit
+          title: Default Request Memory Limit
           type: integer
           enum:
             - 256
