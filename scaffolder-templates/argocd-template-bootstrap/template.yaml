@@ -42,52 +42,42 @@ spec:
           title: Request CPU
           type: string
           description: The sum of CPU cannot that can't be exceed accross all pods.
-          ui:field: requestCpuPicker
-          ui:options:
-            allowedHosts:
-              - Small (1)
-              - Medium (2)
-              - Large (5)
+          enumNames: 
+            - Small (1)
+            - Medium (2)
+            - Large (5)
         request_memory:
           title: Request Memory
           type: string
           description: The sum of memory that can't be exceed accross all pods.
-          ui:field: requestMemoryPicker
-          ui:options:
-            allowedHosts:
-              - Small (1)
-              - Medium (2)
-              - Large (10)
+          enumNames: 
+            - Small (1)
+            - Medium (2)
+            - Large (10)
         limits_cpu:
           title: Limits CPU
           type: string
           description: The sum of CPU  cannot exceed this value accross all pods.
-          ui:field: limitCpuPicker
-          ui:options:
-            allowedHosts:
-              - Small (2)
-              - Medium (3)
-              - Large (6)          
+          enumNames: 
+            - Small (2)
+            - Medium (3)
+            - Large (6)          
         limits_memory:
           title: Limits Memory
           type: string
           description: The sum of Memory  cannot exceed this value accross all pods.
-          ui:field: limitMemoryPicker
-          ui:options:
-            allowedHosts:
-              - Small (2)
-              - Medium (4)
-              - Large (20)          
+          enumNames: 
+            - Small (2)
+            - Medium (4)
+            - Large (20)          
         pods:
           title: Pods
           type: string
           description: The sum of Pods that can exist in the namespace.
-          ui:field: podLimitPicker
-          ui:options:
-            allowedHosts:
-              - Small (10)
-              - Medium (20)
-              - Large (40)          
+          enumNames: 
+            - Small (10)
+            - Medium (20)
+            - Large (40)          
         image_host:
           title: Image Host
           type: string
