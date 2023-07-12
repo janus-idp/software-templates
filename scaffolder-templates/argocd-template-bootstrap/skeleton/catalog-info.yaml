@@ -13,8 +13,8 @@ metadata:
     github.com/project-slug: ${{values.destination }}
     backstage.io/techdocs-ref: dir:.
   tags:
-    - java
-    - quarkus
+    - openshift
+    - gitops
   links:
     - url: https://devspaces${{values.cluster}}/#https://github.com/${{values.destination}}?che-editor=che-incubator/che-code/insiders&devfilePath=.devfile-vscode.yaml
       title: OpenShift Dev Spaces (VS Code)
