@@ -9,7 +9,7 @@ spec:
   limits:
   - default:
       cpu: ${{ values.default_cpu }}
-      memory: ${{ values.default_memory }} Mi
+      memory: ${{ values.default_memory }}Mi
     defaultRequest:
       cpu: ${{ values.default_request_cpu }}m
       memory: ${{ values.default_request_memory }}Mi
