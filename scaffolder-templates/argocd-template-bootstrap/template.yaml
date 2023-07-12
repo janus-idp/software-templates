@@ -82,7 +82,7 @@ spec:
       action: fetch:template
       input:
         url: ./skeleton
-        copyWithoutTemplating: []
+        copyWithoutTemplating: a[]
         values:
           component_id: ${{ parameters.component_id }}
           namespace: ${{ parameters.component_id }}-dev
@@ -133,7 +133,7 @@ spec:
       action: catalog:register
       input:
         repoContentsUrl: ${{ steps.publish-gitops.output.repoContentsUrl }}
-        catalogInfoPath: '/skeleton/catalog-info.yaml'
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: create-argocd-resources
       name: Create ArgoCD Resources
