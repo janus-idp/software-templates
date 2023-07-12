@@ -82,7 +82,8 @@ spec:
       action: fetch:template
       input:
         url: ./skeleton
-        copyWithoutTemplating: []
+        copyWithoutTemplating:
+          - .github/workflows/*
         values:
           component_id: ${{ parameters.component_id }}
           namespace: ${{ parameters.component_id }}-dev
@@ -94,6 +95,23 @@ spec:
           cluster: .apps.home.myocp.net
           destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           port: 8080
+
+    - id: publish
+      name: Publishing to Source Code Repository
+      action: publish:github
+      input:
+        description: This is ${{ parameters.component_id }}
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+        protectDefaultBranch: false
+        repoVisibility: public
+
+    - id: register
+      name: Registering to the Catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
 
     - id: template-gitops-deployment
       name: Generating Deployment Resources
@@ -125,15 +143,6 @@ spec:
         description: gitops resources for ${{ parameters.component_id }}
         sourcePath: ./tenant-gitops
         repoVisibility: public
-        defaultBranch: main
-        protectDefaultBranch: false
-
-    - id: register
-      name: Registering to the Catalog
-      action: catalog:register
-      input:
-        repoContentsUrl: https://github.com/idp-myocp/${{ (parameters.repoUrl | parseRepoUrl).repo }}-gitops
-        catalogInfoPath: '/catalog-info.yaml'
 
     - id: create-argocd-resources
       name: Create ArgoCD Resources
