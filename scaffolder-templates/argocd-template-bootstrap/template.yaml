@@ -40,7 +40,7 @@ spec:
       properties:
         request_cpu:
           title: Request CPU
-          type: string
+          type: integer
           description: The sum of CPU cannot that can't be exceed accross all pods.
           enum:
             - 1
@@ -52,7 +52,7 @@ spec:
             - Large
         request_memory:
           title: Request Memory
-          type: string
+          type: integer
           description: The sum of memory that can't be exceed accross all pods. In Gi
           enum:
             - 1
@@ -64,7 +64,7 @@ spec:
             - Large
         limits_cpu:
           title: Limits CPU
-          type: string
+          type: integer
           description: The sum of CPU  cannot exceed this value accross all pods.
           enum:
             - 2
@@ -76,7 +76,7 @@ spec:
             - Large
         limits_memory:
           title: Limits Memory
-          type: string
+          type: integer
           description: The sum of Memory  cannot exceed this value accross all pods. In Gi
           enum:
             - 2
@@ -88,7 +88,7 @@ spec:
             - Large
         pods:
           title: Pods
-          type: string
+          type: integer
           description: The sum of Pods that can exist in the namespace.
           enum:
             - 10
