@@ -14,4 +14,5 @@ spec:
     - https://github.com/janus-idp/software-templates/blob/main/scaffolder-templates/quarkus-backend-template/template.yaml
     - https://github.com/janus-idp/software-templates/blob/main/scaffolder-templates/argocd-template/template.yaml
     - https://github.com/janus-idp/software-templates/blob/main/scaffolder-templates/ansible-job/template.yaml
+    - https://github.com/janus-idp/software-templates/blob/main/scaffolder-templates/ansible-job-template/template.yaml
     - https://github.com/janus-idp/software-templates/blob/main/scaffolder-templates/ansible-playbook/template.yaml
