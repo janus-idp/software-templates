@@ -74,13 +74,14 @@ spec:
       name: Create catalog-info.yaml file
       action: fetch:template
       input:
-        url: ./template
+        url: ../../scaffolder-skeletons/catalog-info-skeleton/
         values:
           componentName: ${{parameters.componentName}}
-          repositoryName: ${{parameters.repositoryName}}
-          componentLifecycle: ${{parameters.componentLifecycle}}
-          componentType: ${{parameters.componentType}}
-          componentOwner: ${{ parameters.componentOwner }}
+          githubOrg: ${{ parameters.githubOrganization }}
+          repoName: ${{ parameters.repositoryName }}
+          componentLifecycle: ${{ parameters.componentLifecycle }}
+          applicationType: ${{ parameters.componentType }}
+          owner: ${{ parameters.componentOwner }}
 
     - action: publish:github:pull-request
       id: publishPR
