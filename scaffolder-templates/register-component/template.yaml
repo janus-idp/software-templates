@@ -77,7 +77,8 @@ spec:
         url: ../../scaffolder-skeletons/catalog-info-skeleton/
         values:
           componentName: ${{parameters.componentName}}
-          githubOrg: ${{ parameters.githubOrganization }}
+          orgName: ${{ parameters.githubOrganization }}
+          sourceControl: github.com
           repoName: ${{ parameters.repositoryName }}
           componentLifecycle: ${{ parameters.componentLifecycle }}
           applicationType: ${{ parameters.componentType }}
