@@ -64,13 +64,13 @@ spec:
           default: unknown
 
   steps:
-    - action: fetch:plain
-      id: fetchTemplate
+    - id: fetchRepository
       name: Fetch repository
+      action: fetch:plain
       input:
         url: https://${{ parameters.githubHost }}/${{ parameters.githubOrganization }}/${{ parameters.repositoryName }}
 
-    - id: template
+    - id: catalogTemplate
       name: Create catalog-info.yaml file
       action: fetch:template
       input:
@@ -83,9 +83,9 @@ spec:
           applicationType: ${{ parameters.componentType }}
           owner: ${{ parameters.componentOwner }}
 
-    - action: publish:github:pull-request
-      id: publishPR
+    - id: publishPR
       name: Open PR with catalog-info.yaml
+      action: publish:github:pull-request
       input:
         repoUrl: ${{ parameters.githubHost }}?owner=${{ parameters.githubOrganization }}&repo=${{ parameters.repositoryName }}
         branchName: add-catalog-info
