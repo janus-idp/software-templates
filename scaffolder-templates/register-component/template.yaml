@@ -76,7 +76,7 @@ spec:
       input:
         url: ../../scaffolder-skeletons/catalog-info-skeleton/
         values:
-          componentName: ${{parameters.componentName}}
+          componentName: ${{ parameters.componentName }}
           orgName: ${{ parameters.githubOrganization }}
           sourceControl: github.com
           repoName: ${{ parameters.repositoryName }}
