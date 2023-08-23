@@ -98,7 +98,6 @@ spec:
             - Small
             - Medium
             - Large
-
     - title: Provide Limits Range for Container in Project
       properties:
         default_cpu:
@@ -145,6 +144,53 @@ spec:
             - Small
             - Medium
             - Large
+    - title: Provide resource runtime information for Project
+      properties:
+        weekdays_usage:
+          title: Week days to apply the schedual
+          type: string
+          enum:
+            - *
+            - 1-5
+            - 6-7
+          enumNames: 
+            - Everyday
+            - Monday - Friday
+            - Saturday - Sunday.
+        sleepAt:
+          title: Set the time at which to shutdown the resources
+          type: string
+          enum:
+            - 18:00
+            - 19:00
+            - 20:00
+            - 21:00
+            - 22:00
+            - 23:00
+          enumNames: 
+            - 18:00
+            - 19:00
+            - 20:00
+            - 21:00
+            - 22:00
+            - 23:00
+        wakeupAt:
+          title: Set the time at which to wake up the resources
+          type: string
+          enum:
+            - 3:00
+            - 4:00
+            - 5:00
+            - 6:00
+            - 7:00
+            - 8:00
+          enumNames: 
+            - 3:00
+            - 4:00
+            - 5:00
+            - 6:00
+            - 7:00
+            - 8:00
 
     - title: Provide Repository Information for Project
       required:
