@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: openshift-project-argocd
   title: OpenShift Project with ArgoCD
-  description: Template to create a project with quota and limits for openshift using ArgoCD
+  description: Template to create a project with quotas, limits and SleepInfo for openshift using ArgoCD
   tags:
     - gitpps
     - openshift
