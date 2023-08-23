@@ -1,0 +1,13 @@
+apiVersion: kube-green.com/v1alpha1
+kind: SleepInfo
+metadata:
+  name: ${{ values.repository_name }}-working-hours
+  annotations:
+    app.kubernetes.io/component: backstage
+    backstage.io/kubernetes-id: ${{ values.namespace }}
+spec:
+  weekdays: "${{ values.weekdays }}"
+  sleepAt: "${{ values.sleepAt }}"
+  wakeUpAt: "${{ values.wakeUpAt }}"
+  timeZone: "${{ values.timeZone }}"
+  suspendDeployments: true

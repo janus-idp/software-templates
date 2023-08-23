@@ -146,7 +146,7 @@ spec:
             - Large
     - title: Provide resource runtime information for Project
       properties:
-        weekdays_usage:
+        weekdays:
           title: Week days to apply the schedual
           type: string
           enum:
@@ -156,7 +156,7 @@ spec:
           enumNames: 
             - Everyday
             - Monday - Friday
-            - Saturday - Sunday.
+            - Saturday - Sunday
         sleepAt:
           title: Set the time at which to shutdown the resources
           type: string
@@ -174,7 +174,36 @@ spec:
             - "21:00"
             - "22:00"
             - "23:00"
-
+        wakeUpAt:
+          title: Set the time at which to start the resources
+          type: string
+          enum:
+            - "3:00"
+            - "4:00"
+            - "5:00"
+            - "6:00"
+            - "7:00"
+            - "8:00"
+          enumNames: 
+            - "3:00"
+            - "4:00"
+            - "5:00"
+            - "6:00"
+            - "7:00"
+            - "8:00"
+        timeZone:
+          title: Set the time timeZone to use (IANA format)
+          type: string
+          enum:
+            - "Etc/UTC"
+            - "America/Halifax"
+            - "America/Toronto"
+            - "America/Vancouver"
+          enumNames: 
+            - "Universal"
+            - "Canada Atlantique"
+            - "Canada Eastern"
+            - "Canada Pacific"
     - title: Provide Repository Information for Project
       required:
         - repoUrl
@@ -244,6 +273,10 @@ spec:
           default_request_cpu: ${{ parameters.default_request_cpu}}
           default_request_memory: ${{ parameters.default_request_memory}}
           pods: ${{ parameters.pods}}
+          weekdays: ${{ parameters.weekdays}}
+          sleepAt: ${{ parameters.sleepAt}}
+          wakeUpAt: ${{ parameters.wakeUpAt}}
+          timeZone: ${{ parameters.timeZone}}
         targetPath: ./tenant-gitops
 
     - id: publish-gitops
