@@ -144,7 +144,7 @@ spec:
           groupId: ${{ parameters.groupId }}
           artifactId: ${{ parameters.artifactId }}
           javaPackageName: ${{ parameters.javaPackageName }}
-          cluster: .apps.maindeck.fleetcarrier.ca
+          cluster: .apps.wingman.fleetcarrier.ca
 
     - id: ciTemplate
       name: Generating the CI Component
