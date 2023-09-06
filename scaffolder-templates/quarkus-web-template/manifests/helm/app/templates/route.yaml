@@ -7,7 +7,6 @@ metadata:
   labels:
     {{- include "quarkus-template.labels" $ | nindent 4 }}
   name: {{ include "quarkus-template.fullname" $ }}
-  namespace: "{{ .Values.namespace.name }}"
 spec:
   {{- if .host }}
   host: {{ .host }}
