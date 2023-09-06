@@ -22,6 +22,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: ${{ values.component_id }}-preprod
   syncPolicy:
+    managedNamespaceMetadata:
+        labels:
+          argocd.argoproj.io/managed-by: janus-argocd
     automated: 
       prune: true
       selfHeal: true
