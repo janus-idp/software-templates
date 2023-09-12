@@ -94,7 +94,7 @@ spec:
           artifact_id: ${{ parameters.artifact_id }}
           java_package_name: ${{ parameters.java_package_name }}
           owner: ${{ parameters.owner }}
-          cluster: .apps.wingman.fleetcarrier.ca
+          cluster: .apps.home.myocp.net
           destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           port: 8080
 
@@ -128,7 +128,7 @@ spec:
           source_repository: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           repository_name: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
           git_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
-          cluster: .apps.wingman.fleetcarrier.ca
+          cluster: .apps.home.myocp.net
           namespace: ${{ parameters.component_id }}-dev
           image_host: ${{ parameters.image_host }}
           image_name: ${{ parameters.component_id }}

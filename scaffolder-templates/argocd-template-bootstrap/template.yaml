@@ -228,7 +228,7 @@ spec:
           namespace: ${{ parameters.component_id }}-dev
           description: ${{ parameters.description }}
           owner: ${{ parameters.owner }}
-          cluster: .apps.wingman.fleetcarrier.ca
+          cluster: .apps.home.myocp.net
           destination: ${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           port: 8080
 
@@ -262,7 +262,7 @@ spec:
           source_repository: https://github.com/${{ (parameters.repoUrl | parseRepoUrl).owner }}/${{ (parameters.repoUrl | parseRepoUrl).repo }}
           repository_name: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
           git_owner: ${{ (parameters.repoUrl | parseRepoUrl).owner }}
-          cluster: .apps.wingman.fleetcarrier.ca
+          cluster: .apps.home.myocp.net
           namespace: ${{ parameters.component_id }}-dev
           request_cpu: ${{ parameters.request_cpu}}
           request_memory: ${{ parameters.request_memory}}
