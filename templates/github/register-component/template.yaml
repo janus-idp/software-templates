@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: register-component
-  title: Register existing component to Software Catalog
+  title: Register existing component to Software Catalog from Github
   description: Registers existing component (GitHub repository) to Software Catalog
   tags:
     - import
@@ -41,7 +41,7 @@ spec:
         componentName:
           title: Component Name
           type: string
-          description: Name of the created component. If leaved empty the name of the repository will be used.
+          description: Name of the created component. If left empty the name of the repository will be used.
         componentOwner:
           title: Owner
           description: Select an owner from the list or enter a reference to a Group or a User
@@ -55,12 +55,12 @@ spec:
         componentType:
           title: Type
           type: string
-          description: 'The type of component. Well-known and common values: service, website, library.'
+          description: "The type of component. Well-known and common values: service, website, library."
           default: other
         componentLifecycle:
           title: Lifecycle
           type: string
-          description: 'The lifecycle state of the component. Well-known and common values: experimental, production, deprecated.'
+          description: "The lifecycle state of the component. Well-known and common values: experimental, production, deprecated."
           default: unknown
 
   steps:
@@ -108,5 +108,5 @@ spec:
 
   output:
     links:
-      - title: 'Open PR #${{ steps.publishPR.output.pullRequestNumber }}'
+      - title: "Open PR #${{ steps.publishPR.output.pullRequestNumber }}"
         url: ${{ steps.publishPR.output.remoteUrl }}
