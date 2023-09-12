@@ -90,7 +90,7 @@ spec:
 
     - id: publishMergeRequest
       name: Open Merge Request with catalog-info.yaml
-      action: publish:gitlab:pull-request
+      action: publish:gitlab:merge-request
       input:
         repoUrl: ${{ parameters.gitlabHost }}?repo=${{ parameters.projectName }}&owner=${{ parameters.projectOwner }}&
         branchName: add-catalog-info
