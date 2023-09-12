@@ -17,7 +17,7 @@ spec:
     - title: Provide information about the Gitlab location
       required:
         - gitlabHost
-        - githubOrganization
+        - projectOwner
         - projectName
       properties:
         gitlabHost:
