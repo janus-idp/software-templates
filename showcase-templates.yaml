@@ -19,3 +19,4 @@ spec:
     - https://github.com/idp-myocp/software-templates/blob/day-2/scaffolder-templates/argocd-template-bootstrap/template.yaml
     - https://github.com/idp-myocp/software-templates/blob/day-2/scaffolder-templates/quarkus-backend-template/template.yaml
     - https://github.com/idp-myocp/software-templates/blob/day-2/scaffolder-templates/quarkus-web-template/template.yaml
+    - https://github.com/idp-myocp/software-templates/blob/day-2/scaffolder-templates/tekton/template.yaml
