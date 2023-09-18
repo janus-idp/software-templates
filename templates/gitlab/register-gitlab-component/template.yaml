@@ -68,17 +68,11 @@ spec:
           default: unknown
 
   steps:
-    - id: fetchRepository
-      name: Fetch repository
-      action: fetch:plain
-      input:
-        url: https://${{ parameters.gitlabHost }}/${{ parameters.projectOwner }}/${{ parameters.projectName }}
-
     - id: catalogTemplate
       name: Create catalog-info.yaml file
       action: fetch:template
       input:
-        url: ../../../skeletons/catalog-info/
+        url: ./catalog-info/
         values:
           componentName: ${{ parameters.componentName }}
           orgName: ${{ parameters.projectOwner }}
@@ -87,7 +81,6 @@ spec:
           componentLifecycle: ${{ parameters.componentLifecycle }}
           applicationType: ${{ parameters.componentType }}
           owner: ${{ parameters.componentOwner }}
-
     - id: publishMergeRequest
       name: Open Merge Request with catalog-info.yaml
       action: publish:gitlab:merge-request
@@ -101,16 +94,16 @@ spec:
           After this pull request is merged, the component will become available.
 
           For more information, read an [overview of the Backstage software catalog](https://backstage.io/docs/features/software-catalog/).
-
+        removeSourceBranch: true
     - id: register
       name: Register component
       action: catalog:register
       input:
-        repoContentsUrl: https://${{ parameters.gitlabHost }}/${{ parameters.projectOwner }}/${{ parameters.projectName }}/${{ parameters.repositoryName }}/-/blob/${{ steps.publishPR.output.targetBranchName }}/
+        repoContentsUrl: https://${{ parameters.gitlabHost }}/${{ parameters.projectOwner }}/${{ parameters.projectName }}/${{ parameters.repositoryName }}-/blob/${{ steps.publishMergeRequest.output.targetBranchName }}/
         catalogInfoPath: /catalog-info.yaml
         optional: true
 
   output:
     links:
-      - title: "Open PR #${{ steps.publishPR.output.pullRequestNumber }}"
-        url: ${{ steps.publishPR.output.remoteUrl }}
+      - title: "Go to PR"
+        url: ${{ steps.publishMergeRequest.output.mergeRequestUrl }}
