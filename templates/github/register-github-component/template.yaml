@@ -43,8 +43,8 @@ spec:
           type: string
           description: Name of the created component. If left empty the name of the repository will be used.
           # Refer to https://github.com/backstage/backstage/blob/master/docs/architecture-decisions/adr002-default-catalog-file-format.md#name
-          maxLength: 62
-          pattern: "^[a-z0-9A-Z-_.]+$"
+          maxLength: 63
+          pattern: ^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$
         componentOwner:
           title: Owner
           description: Select an owner from the list or enter a reference to a Group or a User
