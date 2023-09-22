@@ -4,15 +4,8 @@ This template is intended to be used as a starting point for registering an exis
 
 ## Prerequisites
 
-- Please make sure that the `add-catalog-info` branch and `catalog-info.yaml` file do not already exist in the project, or else the template will fail
-- If the a `catalog-info.yaml` file already exists in the repository, please use the built-in `Register Existing Component` button in the `Create...` page instead and provide the url to the `catalog-info.yaml`:
-  ![Built-in Register Existing Component](./images/built-in-register-existing-component.png)
-
-### Required Gitlab permissions
-
-- Please ensure the gitlab host is added to the `app-config.yaml` file in the backstage instance
-- The Gitlab access token needs to have `api` read & write scopes and be added to your gitlab integration
-- If using a private Gitlab instance, please make sure the `apiBaseUrl` is set correctly:
+- Ensure the gitlab host is added to the `app-config.yaml` file in the backstage instance
+- If using a private Gitlab instance, make sure the `apiBaseUrl` is set correctly:
 
   ```yaml
   integrations:
@@ -21,6 +14,14 @@ This template is intended to be used as a starting point for registering an exis
         token: my-gitlab-token
         apiBaseUrl: https://gitlab.mycompany.com/api/v4 # This field is optional if host is `gitlab.com`
   ```
+
+- Make sure that the `add-catalog-info` branch and `catalog-info.yaml` file do not already exist in the project, or else the template will fail
+- If a `catalog-info.yaml` file already exists in the repository, please use the built-in `Register Existing Component` button in the `Create...` page instead and provide the url to the `catalog-info.yaml`:
+  ![Built-in Register Existing Component](./images/built-in-register-existing-component.png)
+
+### Required Gitlab permissions
+
+- The Gitlab access token needs to have `api` read & write scopes and be added to your gitlab integration
 
 ## Usage
 
@@ -72,6 +73,7 @@ Once you press create, you should expect all the steps to be completed successfu
 
 To ingest the component, you will need to merge the merge request created by the template.
 To navigate to the merge request, click the `Go to Merge Request` button to be redirected to the corresponding merge request.
+Feel free to add any additional annotations to the `catalog-info.yaml` file before merging the merge request.
 Once the merge request is merged, wait up to 5 minutes for the component to be ingested into the catalog.
 
 Once ingested, navigate to the catalog (filter by `kind=Component`) and you should see your newly registered component.

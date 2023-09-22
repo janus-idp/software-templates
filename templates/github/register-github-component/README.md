@@ -4,8 +4,8 @@ This template is intended to be used as a starting point for registering an exis
 
 ## Prerequisites
 
-- Please ensure the github host is added to the `app-config.yaml` file in the backstage instance
-- If using a github enterprise instance, please make sure the `apiBaseUrl` is set correctly:
+- Ensure the github host is added to the `app-config.yaml` file in the backstage instance
+- If using a github enterprise instance, make sure the `apiBaseUrl` is set correctly:
 
   ```yaml
   integrations:
@@ -82,6 +82,7 @@ Once you press create, you should expect all the steps to be completed successfu
 
 To ingest the component, you will need to merge the pull request created by the template.
 To navigate to the pull request, click the `Go to PR #{PR_NUMBER}` button to be redirected to the corresponding pull request.
+Feel free to add any additional annotations to the `catalog-info.yaml` file before merging the pull request.
 Once the pull request is merged, wait up to 5 minutes for the component to be ingested into the catalog.
 
 Once ingested, navigate to the catalog (filter by `kind=Component`) and you should see your newly registered component.
