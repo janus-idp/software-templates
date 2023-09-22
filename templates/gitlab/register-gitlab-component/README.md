@@ -1,6 +1,6 @@
 # Register existing component to Service Catalog
 
-This template is intended to be used as a starting point for registering an existing gitlab project to the Service Catalog. (both `gitlab.com` and Gitlab for Enterprise are supported).
+This template is intended to be used as a starting point for registering an existing gitlab project to the Service Catalog. Both `gitlab.com` and Gitlab for Enterprise are supported.
 
 ## Prerequisites
 
@@ -68,7 +68,7 @@ Once all these values are filled in, you should see a summary screen with all yo
 ### Expected Output
 
 ![gpt-result-image](gpt-result.png)
-Once you press create you should expect all the steps to be completed successfully and the component registered, but not ingested yet.
+Once you press create, you should expect all the steps to be completed successfully and the component registered, but not ingested yet.
 
 To ingest the component, you will need to merge the merge request created by the template.
 To navigate to the merge request, click the `Go to Merge Request` button to be redirected to the corresponding merge request.
