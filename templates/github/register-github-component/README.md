@@ -4,11 +4,33 @@ This template is intended to be used as a starting point for registering an exis
 
 ## Prerequisites
 
+- Please ensure the github host is added to the `app-config.yaml` file in the backstage instance
+- If using a github enterprise instance, please make sure the `apiBaseUrl` is set correctly:
+
+  ```yaml
+  integrations:
+    gitlab:
+      - host: github.mycompany.com # this must match the hostname of your gitlab instance
+        token: my-github-token # You can use a token or a github app (app will take precedence)
+        apps:
+          - appId: app-id
+            clientId: client-id
+            clientSecret: client-secret
+            webhookSecret: webhook-secret
+            privateKey: |
+              -----BEGIN RSA PRIVATE KEY-----
+              ...Key content...
+              -----END RSA PRIVATE KEY-----
+        apiBaseUrl: https://github.mycompany.com/api/v3 # This field is optional if host is `github.com`
+        # apiBaseUrl: https://api.github.mycompany.com # This is also a potential api base url for github enterprise
+  ```
+
 ### Required GitHub permissions
 
 The GitHub application or access token needs to have the following permissions:
 
 - **Repository permissions**
+
   - **Contents**: **_Read & write_** - To be able to create a new branch and push files new `catalog-info.yaml` file into it.
   - **Pull requests**: **_Read & write_** - To be able to create pull requests with generated `catalog-info.yaml`.
   - **Commit statuses**: **_Read-only_** - To be able to clone private repositories.
@@ -20,18 +42,18 @@ The GitHub application or access token needs to have the following permissions:
 - `GitHub hostname`: The hostname of your github instance
   - Default value: `github.com`
   - For Github Free, Pro & Team, use `github.com`
-  - For Github Enterprise, use the hostname of your instance. e.g. `gitlab.mycompany.com`
+  - For Github Enterprise, use the hostname of your instance. e.g. `github.mycompany.com`
   - **NOTE**: this hostname MUST exist in the github integrations in the backstage instance's `app-config.yaml` with the correct access token or github app
 - `Github Organization`: The owner of the repository (user or organization)
-- `Repository`: The name of the repository where your component is located
+- `Repository name`: The name of the repository where your component is located
 
 ![github-component-info-image](./images/github-component-info.png)
 
 - `Component Name` (Optional): The name used to identify the component in the backstage catalog
   - **NOTE**: this name also must adhere to the backstage entity name format [requirements](https://github.com/backstage/backstage/blob/master/docs/architecture-decisions/adr002-default-catalog-file-format.md#name).
   - Additionally, this name should not already be in use in the backstage catalog
-  - If left blank, the value of `Gitlab project name` will be used instead
-    - If the value of `Gitlab project name` is used, then it must also adhere to these requirements,
+  - If left blank, the value of `Repository name` will be used instead
+    - If the value of `Repository name` is used, then it must also adhere to these requirements,
   - If these requirements are not met, the component will not be ingested properly.
   - Used to populate the [`metadata.name`](https://backstage.io/docs/features/software-catalog/descriptor-format/#specowner-required) field of the component's `catalog-info.yaml`
 - `Owner`: The owner of the component in the backstage catalog
