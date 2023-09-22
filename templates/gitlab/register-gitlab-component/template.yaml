@@ -26,7 +26,7 @@ spec:
           description: Use gitlab.com or specify a hostname of your Gitlab Enterprise instance.
           default: gitlab.com
         projectOwner:
-          title: Gitlab Repository owner
+          title: Gitlab project owner
           type: string
           description: "Can be a group, subgroup or a user. If using a subgroup, provide full ownership chain, ex: group/subgroup"
         projectName:
@@ -105,5 +105,5 @@ spec:
 
   output:
     links:
-      - title: "Go to PR"
+      - title: "Go to Merge Request"
         url: ${{ steps.publishMergeRequest.output.mergeRequestUrl }}
