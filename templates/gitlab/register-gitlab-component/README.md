@@ -68,7 +68,7 @@ Once all these values are filled in, you should see a summary screen with all yo
 
 ### Expected Output
 
-![gpt-result-image](gpt-result.png)
+![gpt-result-image](./images/gpt-result.png)
 Once you press create, you should expect all the steps to be completed successfully and the component registered, but not ingested yet.
 
 To ingest the component, you will need to merge the merge request created by the template.
