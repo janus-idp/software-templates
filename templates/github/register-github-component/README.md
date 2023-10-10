@@ -4,14 +4,14 @@ This template is intended to be used as a starting point for registering an exis
 
 ## Prerequisites
 
-- Ensure the github host is added to the `app-config.yaml` file in the backstage instance
-- If using a github enterprise instance, make sure the `apiBaseUrl` is set correctly:
+- Ensure the GitHub host is added to the `app-config.yaml` file in the backstage instance
+- If using a Github enterprise instance, make sure the `apiBaseUrl` is set correctly:
 
   ```yaml
   integrations:
-    gitlab:
-      - host: github.mycompany.com # this must match the hostname of your gitlab instance
-        token: my-github-token # You can use a token or a github app (app will take precedence)
+    github:
+      - host: github.mycompany.com # this must match the hostname of your Github instance
+        token: my-github-token # You can use a token or a Github app (app will take precedence)
         apps:
           - appId: app-id
             clientId: client-id
@@ -22,7 +22,7 @@ This template is intended to be used as a starting point for registering an exis
               ...Key content...
               -----END RSA PRIVATE KEY-----
         apiBaseUrl: https://github.mycompany.com/api/v3 # This field is optional if host is `github.com`
-        # apiBaseUrl: https://api.github.mycompany.com # This is also a potential api base url for github enterprise
+        # apiBaseUrl: https://api.github.mycompany.com # This is also a potential api base url for Github enterprise
   ```
 
 ### Required GitHub permissions
@@ -31,21 +31,21 @@ The GitHub application or access token needs to have the following permissions:
 
 - **Repository permissions**
 
-  - **Contents**: **_Read & write_** - To be able to create a new branch and push files new `catalog-info.yaml` file into it.
-  - **Pull requests**: **_Read & write_** - To be able to create pull requests with generated `catalog-info.yaml`.
-  - **Commit statuses**: **_Read-only_** - To be able to clone private repositories.
+  - **Contents**: **_Read & write_** - To create new branches and push files.
+  - **Pull requests**: **_Read & write_** - To create pull requests.
+  - **Commit statuses**: **_Read-only_** - To clone private repositories.
 
 ## Usage
 
 ![github-location-info-image](./images/github-location-info.png)
 
-- `GitHub hostname`: The hostname of your github instance
+- `GitHub Hostname`: The hostname of your GitHub instance
   - Default value: `github.com`
   - For Github Free, Pro & Team, use `github.com`
   - For Github Enterprise, use the hostname of your instance. e.g. `github.mycompany.com`
-  - **NOTE**: this hostname MUST exist in the github integrations in the backstage instance's `app-config.yaml` with the correct access token or github app
+  - **NOTE**: this hostname MUST exist in the Github integrations in the backstage instance's `app-config.yaml` with the correct access token or Github app
 - `Github Organization`: The owner of the repository (user or organization)
-- `Repository name`: The name of the repository where your component is located
+- `Repository Name`: The name of the repository where your component is located
 
 ![github-component-info-image](./images/github-component-info.png)
 

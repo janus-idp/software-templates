@@ -1,16 +1,16 @@
 # Register existing component to Service Catalog
 
-This template is intended to be used as a starting point for registering an existing gitlab project to the Service Catalog. Both `gitlab.com` and Gitlab for Enterprise are supported.
+This template is intended to be used as a starting point for registering an existing Gitlab project to the Service Catalog. Both `gitlab.com` and Gitlab for Enterprise are supported.
 
 ## Prerequisites
 
-- Ensure the gitlab host is added to the `app-config.yaml` file in the backstage instance
+- Ensure the Gitlab host is added to the `app-config.yaml` file in the backstage instance
 - If using a private Gitlab instance, make sure the `apiBaseUrl` is set correctly:
 
   ```yaml
   integrations:
     gitlab:
-      - host: gitlab.mycompany.com # this must match the hostname of your gitlab instance
+      - host: gitlab.mycompany.com # this must match the hostname of your Gitlab instance
         token: my-gitlab-token
         apiBaseUrl: https://gitlab.mycompany.com/api/v4 # This field is optional if host is `gitlab.com`
   ```
@@ -21,22 +21,22 @@ This template is intended to be used as a starting point for registering an exis
 
 ### Required Gitlab permissions
 
-- The Gitlab access token needs to have `api` read & write scopes and be added to your gitlab integration
+- The Gitlab access token needs to have `api` read & write scopes and be added to your Gitlab integration
 
 ## Usage
 
 ![gitlab-location-info-image](./images/gitlab-location-info.png)
 
-- `Gitlab hostname`: The hostname of your gitlab instance
+- `Gitlab Hostname`: The hostname of your Gitlab instance
   - Default value: `gitlab.com`
   - For public instances, use `gitlab.com`
   - For Gitlab Enterprise instances, use the hostname of your instance. e.g. `gitlab.mycompany.com`
-  - **NOTE**: this hostname MUST exist in the gitlab integrations in the backstage instance's `app-config.yaml` with the correct access token
-- `Gitlab project owner`: The user, group or subgroup that the project is owned by
+  - **NOTE**: this hostname MUST exist in the Gitlab integrations in the backstage instance's `app-config.yaml` with the correct access token
+- `Gitlab Project Owner`: The user, group or subgroup that the project is owned by
   - Do not provide just the name of the group, you will need to provide the name in the url:
     - Ex: A group may be named `mygroup` but the url could be `https://gitlab.com/mygroup2`, this template will need `mygroup2`
   - For subgroups, use full slug for the subgroup. (`mygroup2/subgroup`, `mygroup2/subgroup/subsubgroup`, etc.)
-- `Gitlab project name`: The name of the project where your component is located
+- `Gitlab Project Name`: The name of the project where your component is located
 
 ![gitlab-component-info-image](./images/gitlab-component-info.png)
 

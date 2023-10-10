@@ -21,16 +21,16 @@ spec:
         - projectName
       properties:
         gitlabHost:
-          title: Gitlab hostname
+          title: GitLab Hostname
           type: string
           description: Use gitlab.com or specify a hostname of your Gitlab Enterprise instance.
           default: gitlab.com
         projectOwner:
-          title: Gitlab project owner
+          title: Gitlab Project Owner
           type: string
           description: "Can be a group, subgroup or a user. If using a subgroup, provide full ownership chain, ex: group/subgroup"
         projectName:
-          title: Gitlab project name
+          title: Gitlab Project Name
           type: string
 
     - title: Provide information about the new component
@@ -96,7 +96,7 @@ spec:
           For more information, read an [overview of the Backstage software catalog](https://backstage.io/docs/features/software-catalog/).
         removeSourceBranch: true
     - id: register
-      name: Register component
+      name: Register Component
       action: catalog:register
       input:
         repoContentsUrl: https://${{ parameters.gitlabHost }}/${{ parameters.projectOwner }}/${{ parameters.projectName }}/${{ parameters.repositoryName }}-/blob/${{ steps.publishMergeRequest.output.targetBranchName }}/
