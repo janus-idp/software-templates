@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: register-component
-  title: Register existing component to Software Catalog
+  name: register-github-component
+  title: Register existing component to Software Catalog from Github
   description: Registers existing component (GitHub repository) to Software Catalog
   tags:
     - import
@@ -21,7 +21,7 @@ spec:
         - repositoryName
       properties:
         githubHost:
-          title: GitHub hostname
+          title: GitHub Hostname
           type: string
           description: Use github.com for GitHub Free, Pro, & Team or specify a hostname of your GitHub Enterprise instance.
           default: github.com
@@ -29,7 +29,7 @@ spec:
           title: GitHub Organization
           type: string
         repositoryName:
-          title: Repository name
+          title: Repository Name
           type: string
 
     - title: Provide information about the new component
@@ -41,7 +41,10 @@ spec:
         componentName:
           title: Component Name
           type: string
-          description: Name of the created component. If leaved empty the name of the repository will be used.
+          description: Name of the created component. If left empty the name of the repository will be used.
+          # Refer to https://github.com/backstage/backstage/blob/master/docs/architecture-decisions/adr002-default-catalog-file-format.md#name
+          maxLength: 63
+          pattern: ^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$
         componentOwner:
           title: Owner
           description: Select an owner from the list or enter a reference to a Group or a User
@@ -55,12 +58,12 @@ spec:
         componentType:
           title: Type
           type: string
-          description: 'The type of component. Well-known and common values: service, website, library.'
+          description: "The type of component. Well-known and common values: service, website, library."
           default: other
         componentLifecycle:
           title: Lifecycle
           type: string
-          description: 'The lifecycle state of the component. Well-known and common values: experimental, production, deprecated.'
+          description: "The lifecycle state of the component. Well-known and common values: experimental, production, deprecated."
           default: unknown
 
   steps:
@@ -99,7 +102,7 @@ spec:
           For more information, read an [overview of the Backstage software catalog](https://backstage.io/docs/features/software-catalog/).
 
     - id: register
-      name: Register component
+      name: Register Component
       action: catalog:register
       input:
         repoContentsUrl: https://${{ parameters.githubHost }}/${{ parameters.githubOrganization }}/${{ parameters.repositoryName }}/blob/${{ steps.publishPR.output.targetBranchName }}/
@@ -108,5 +111,5 @@ spec:
 
   output:
     links:
-      - title: 'Open PR #${{ steps.publishPR.output.pullRequestNumber }}'
+      - title: "Open PR #${{ steps.publishPR.output.pullRequestNumber }}"
         url: ${{ steps.publishPR.output.remoteUrl }}

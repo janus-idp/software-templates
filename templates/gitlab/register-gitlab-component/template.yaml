@@ -1,0 +1,109 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: register-gitlab-component
+  title: Register existing component to Software Catalog from Gitlab
+  description: Registers existing component (Gitlab repository) to Software Catalog
+  tags:
+    - import
+    - catalog
+    - register
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+
+  parameters:
+    - title: Provide information about the Gitlab location
+      required:
+        - gitlabHost
+        - projectOwner
+        - projectName
+      properties:
+        gitlabHost:
+          title: GitLab Hostname
+          type: string
+          description: Use gitlab.com or specify a hostname of your Gitlab Enterprise instance.
+          default: gitlab.com
+        projectOwner:
+          title: Gitlab Project Owner
+          type: string
+          description: "Can be a group, subgroup or a user. If using a subgroup, provide full ownership chain, ex: group/subgroup"
+        projectName:
+          title: Gitlab Project Name
+          type: string
+
+    - title: Provide information about the new component
+      required:
+        - componentOwner
+        - componentType
+        - componentLifecycle
+      properties:
+        componentName:
+          title: Component Name
+          type: string
+          description: Name of the created component. If left empty the name of the repository will be used.
+          # Refer to https://github.com/backstage/backstage/blob/master/docs/architecture-decisions/adr002-default-catalog-file-format.md#name
+          maxLength: 63
+          pattern: ^([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9]$
+        componentOwner:
+          title: Owner
+          description: Select an owner from the list or enter a reference to a Group or a User
+          type: string
+          ui:field: EntityPicker
+          ui:options:
+            catalogFilter:
+              kind:
+                - Group
+                - User
+        componentType:
+          title: Type
+          type: string
+          description: "The type of component. Well-known and common values: service, website, library."
+          default: other
+        componentLifecycle:
+          title: Lifecycle
+          type: string
+          description: "The lifecycle state of the component. Well-known and common values: experimental, production, deprecated."
+          default: unknown
+
+  steps:
+    - id: catalogTemplate
+      name: Create catalog-info.yaml file
+      action: fetch:template
+      input:
+        url: ../../../skeletons/catalog-info/
+        values:
+          componentName: ${{ parameters.componentName }}
+          orgName: ${{ parameters.projectOwner }}
+          sourceControl: gitlab.com
+          repoName: ${{ parameters.projectName }}
+          componentLifecycle: ${{ parameters.componentLifecycle }}
+          applicationType: ${{ parameters.componentType }}
+          owner: ${{ parameters.componentOwner }}
+    - id: publishMergeRequest
+      name: Open Merge Request with catalog-info.yaml
+      action: publish:gitlab:merge-request
+      input:
+        repoUrl: ${{ parameters.gitlabHost }}?repo=${{ parameters.projectName }}&owner=${{ parameters.projectOwner }}&
+        branchName: add-catalog-info
+        title: add catalog-info.yaml
+        description: |
+          This pull request adds a **Backstage entity metadata file** to this repository.
+
+          After this pull request is merged, the component will become available.
+
+          For more information, read an [overview of the Backstage software catalog](https://backstage.io/docs/features/software-catalog/).
+        removeSourceBranch: true
+    - id: register
+      name: Register Component
+      action: catalog:register
+      input:
+        repoContentsUrl: https://${{ parameters.gitlabHost }}/${{ parameters.projectOwner }}/${{ parameters.projectName }}/${{ parameters.repositoryName }}-/blob/${{ steps.publishMergeRequest.output.targetBranchName }}/
+        catalogInfoPath: /catalog-info.yaml
+        optional: true
+
+  output:
+    links:
+      - title: "Go to Merge Request"
+        url: ${{ steps.publishMergeRequest.output.mergeRequestUrl }}
